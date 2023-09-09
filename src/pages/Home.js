@@ -1,53 +1,35 @@
-import React, { useEffect, useState } from "react"
-import axios from "axios";
+import React, { useEffect } from 'react';
+import { useAuth } from '../firebase'; // Import the useAuth hook from your firebase.js file
+import { useUserData } from '../users/userUtils';
 
-export default function Home() {
+const Home = () => {
+    const user = useAuth(); // Use the useAuth hook to get the authenticated user
+    const { userType, email, username } = useUserData(user);
 
-    const [users,setUsers]=useState([])
+    useEffect(() => {
+        // You can use the userType, email, and username here
+        console.log('User Type:', userType);
+        console.log('Email:', email);
+        console.log('Username:', username);
+    }, [userType, email, username]);
 
-    useEffect(()=>{
-        loadUsers();
-    },[]);
-
-    const loadUsers=async()=>{
-        const result=await axios.get("http://localhost:8080/users")
-        setUsers(result.data)
-    }
-
-  return (
-    <div className='container'>
-        <div className='py-4'>
-        <table className="table border shadow">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Name</th>
-      <th scope="col">Username</th>
-      <th scope="col">Email</th>
-      <th scope="col">Action</th>
-    </tr>
-  </thead>
-  <tbody>
-
-    {
-        users.map((user, index)=>(
-            <tr>
-            <th scope="row" key={index}>{index+1}</th>
-            <td>{user.name}</td>
-            <td>{user.username}</td>
-            <td>{user.email}</td>
-            <td>
-                <button className="btn btn-primary mx-2"></button>
-                <button className="btn btn-primary mx-2"></button>
-                <button className="btn btn-primary mx-2"></button>
-            </td>
-            </tr>
-        ))
-    }
-
-  </tbody>
-</table>
+    return (
+        <div>
+            <h1>Welcome to the Home Page</h1>
+            <div>
+                {user ? (
+                    <div>
+                        <h2>User Information</h2>
+                        <p>User Type: {userType}</p>
+                        <p>Email: {email}</p>
+                        <p>Username: {username}</p>
+                    </div>
+                ) : (
+                    <p>Not Signed In</p>
+                )}
+            </div>
         </div>
-    </div>
-  )
-}
+    );
+};
+
+export default Home;

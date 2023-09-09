@@ -1,0 +1,14 @@
+:root {
+    --bg-color: #202124;
+    --bg-dark: #171717;
+    --bg-dark1: #454a57;
+    --bg-dark2: #454a57;
+    --bg-dark3: #454a57;
+    --theme-color: #2776ff;
+    --bg-white: white;
+    --text-color: #606875;
+    --cold-grey: #cdcdcd;
+    --warm-grey: #989898;
+    --svg-close: #00001a70;
+    --svg-close-hover: #00001a;
+}
