@@ -18,7 +18,7 @@ import PatientDashboard from "./patient/patientDashboard";
 
 function App() {
   return (
-      <div className="App" style={{backgroundColor: '#202124'}}>
+      <div className="App" style={{backgroundColor: '#202124', height:'100vh'}}>
         <Router>
           <Navbar />
           <div className="container">

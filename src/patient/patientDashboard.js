@@ -23,6 +23,9 @@ export default function PatientDashboard() {
         <div className="d-flex" style={{maxHeight: '80vh'}}>
             <Sidepane />
             <div className="container" >
+                <div className="mt-3 ms-4 pt-3 container d-flex" >
+                    <h4 className="pt-3 text-light">Welcome back {username}, </h4>
+                </div>
 
             </div>
         </div>

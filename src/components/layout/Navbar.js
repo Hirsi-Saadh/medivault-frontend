@@ -83,7 +83,7 @@ export default function Navbar() {
                         </a>
                       </li>
                       <li>
-                        <a href="https://gotytv.com/profile" className="dropdown-item">
+                        <a href="/patient/profile" className="dropdown-item">
                           My Profile
                         </a>
                       </li>
