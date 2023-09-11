@@ -1,7 +1,12 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import {useAuth} from "../firebase";
+import {useUserData} from "../users/userUtils";
 
 export function usePatientData(patient) {
+
+    const user = useAuth(); // Replace with your Firebase authentication hook
+    const { userType, email, username } = useUserData(user);
 
     const [FirstName, setFirstName] = useState('');
     const [LastName, setLastName] = useState('');
@@ -36,5 +41,5 @@ export function usePatientData(patient) {
         }
     }, [patient]);
 
-    return { FirstName, LastName, Age, Address, DateOfBirth };
+    return { userType, username, email, FirstName, LastName, Age, Address, DateOfBirth };
 }
