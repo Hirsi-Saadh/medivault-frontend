@@ -8,8 +8,22 @@ import {
     faHome,
     faPrescriptionBottle, faRightFromBracket, faUser
 } from '@fortawesome/free-solid-svg-icons';
+import {auth} from "../../firebase";
+import {useNavigate} from 'react-router-dom'
 
 function SidePane() {
+
+    const navigate = useNavigate();
+
+    const handleLogout = async () => {
+        try {
+            await auth.signOut();
+            console.log('Logged out successfully');
+            navigate('/');
+        } catch (error) {
+            console.error('Error logging out:', error);
+        }
+    };
 
     const [isSubMenu1Collapsed, setIsSubMenu1Collapsed] = useState(true);
     const [isSubMenu2Collapsed, setIsSubMenu2Collapsed] = useState(true);
@@ -172,7 +186,7 @@ function SidePane() {
                     </li>
 
                     <li>
-                        <a className="nav-link px-0 align-middle text-light">
+                        <a className="nav-link px-0 align-middle text-light" href='#' onClick={handleLogout}>
                             <FontAwesomeIcon icon={faRightFromBracket}/> <span className="ms-2 d-none d-sm-inline">Logout</span>
                         </a>
                     </li>

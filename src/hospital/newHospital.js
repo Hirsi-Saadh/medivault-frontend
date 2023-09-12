@@ -6,54 +6,51 @@ export default function NewHospital() {
     let navigate = useNavigate();
 
     const [hospital, setHospital] = useState({
-        name: "",
-        licenseNumber: "",
-        address: "",
-        // Add more fields for hospital info
+        uid: "",
+        hospitalName: '',
+        hospitalAddress: '',
+        hospitalLicense: '',
+        hospitalType: '',
+        medicalLicenseBlob: '', // Store the file object
     });
 
-    const { name, licenseNumber, address /* Add more fields here */ } = hospital;
+    const { hospitalName, hospitalAddress, hospitalLicense, hospitalType, medicalLicenseBlob } = hospital;
 
     const onInputChange = (e) => {
-        setHospital({ ...hospital, [e.target.name]: e.target.value });
+        if (e.target.name === "medicalLicenseBlob") {
+            // Handle file input separately
+            setHospital({ ...hospital, [e.target.name]: e.target.files[0] });
+        } else {
+            setHospital({ ...hospital, [e.target.name]: e.target.value });
+        }
     };
 
     const onSubmit = async (e) => {
         e.preventDefault();
-        const csrfToken = await getCsrfToken();
 
         try {
-            const response = await axios.post(
-                "http://localhost:8080/hospitals/register",
-                hospital, // Send hospital data to the server
-                {
-                    headers: {
-                        "X-CSRF-TOKEN": csrfToken,
-                        "Content-Type": "application/json",
-                    },
-                }
-            );
+            const formData = new FormData();
+            formData.append("uid", hospital.uid);
+            formData.append("hospitalName", hospital.hospitalName);
+            formData.append("hospitalAddress", hospital.hospitalAddress);
+            formData.append("hospitalLicense", hospital.hospitalLicense);
+            formData.append("hospitalType", hospital.hospitalType);
+            formData.append("medicalLicenseBlob", hospital.medicalLicenseBlob);
+            
+
+            const response = await axios.post('http://localhost:8080/hospital/add', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data', // Set the content type for file upload
+                },
+            });
 
             // Handle the response as needed
             console.log("Hospital registered:", response.data);
-
-            // Redirect or show a success message
-            navigate("/success");
+            navigate("/"); // Redirect or show a success message
         } catch (error) {
             console.error("Error registering hospital:", error);
         }
     };
-
-    async function getCsrfToken() {
-        try {
-            const response = await axios.get("http://localhost:8080/csrf/token");
-            const csrfToken = response.data;
-            console.log("This is the CSRF Token:", csrfToken);
-            return csrfToken;
-        } catch (error) {
-            console.error("Error fetching CSRF token:", error);
-        }
-    }
 
     return (
         <div className="container">
@@ -62,44 +59,73 @@ export default function NewHospital() {
                     <h2 className="text-center m-4">Register Hospital</h2>
                     <form onSubmit={(e) => onSubmit(e)}>
                         <div className="mb-3">
-                            <label htmlFor="name" className="form-label">
+                            <label htmlFor="hospitalName" className="form-label">
                                 Hospital Name
                             </label>
                             <input
                                 type="text"
                                 className="form-control"
                                 placeholder="Enter hospital name"
-                                name="name"
-                                value={name}
+                                name="hospitalName"
+                                value={hospitalName}
                                 onChange={(e) => onInputChange(e)}
                             />
                         </div>
                         <div className="mb-3">
-                            <label htmlFor="licenseNumber" className="form-label">
+                            <label htmlFor="hospitalLicense" className="form-label">
                                 License Number
                             </label>
                             <input
                                 type="text"
                                 className="form-control"
                                 placeholder="Enter license number"
-                                name="licenseNumber"
-                                value={licenseNumber}
+                                name="hospitalLicense"
+                                value={hospitalLicense}
                                 onChange={(e) => onInputChange(e)}
                             />
                         </div>
                         <div className="mb-3">
-                            <label htmlFor="address" className="form-label">
+                            <label htmlFor="hospitalAddress" className="form-label">
                                 Address
                             </label>
                             <input
                                 type="text"
                                 className="form-control"
                                 placeholder="Enter hospital address"
-                                name="address"
-                                value={address}
+                                name="hospitalAddress"
+                                value={hospitalAddress}
                                 onChange={(e) => onInputChange(e)}
                             />
                         </div>
+                        <div className="mb-3">
+                            <label htmlFor="hospitalType" className="form-label">
+                                Hospital Type
+                            </label>
+                            <select
+                                className="form-select"
+                                placeholder="Select hospital type"
+                                name="hospitalType"
+                                value={hospitalType}
+                                onChange={(e) => onInputChange(e)}
+                            >
+                                <option value="">Select user type</option>
+                                <option value="GOVERNMENT">Government</option>
+                                <option value="PRIVATE">Private</option>
+                            </select>
+                        </div>
+
+                        <div className="mb-3">
+                            <label htmlFor="medicalLicenseBlob" className="form-label">
+                                Add the medical license
+                            </label>
+                            <input
+                                type="file"
+                                className="form-control"
+                                name="medicalLicenseBlob"
+                                onChange={(e) => onInputChange(e)}
+                            />
+                        </div>
+
                         {/* Add more fields for hospital info */}
                         <button type="submit" className="btn btn-outline-primary">
                             Submit
