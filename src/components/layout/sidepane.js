@@ -41,7 +41,7 @@ function SidePane() {
                     </h4>
 
                     <li className="nav-item">
-                        <a className="nav-link align-middle px-0 text-light">
+                        <a className="nav-link align-middle px-0 text-light" href="/patient/dashboard">
                             <FontAwesomeIcon icon={faHome}/> <span className="ms-1 d-none d-sm-inline">Dashboard</span>
                         </a>
                     </li>
@@ -166,7 +166,7 @@ function SidePane() {
                     </h4>
 
                     <li>
-                        <a className="nav-link px-0 align-middle text-light">
+                        <a className="nav-link px-0 align-middle text-light" href="/patient/profile">
                             <FontAwesomeIcon icon={faUser}/> <span className="ms-2 d-none d-sm-inline">My Profile</span>
                         </a>
                     </li>

@@ -83,7 +83,7 @@ export default function Navbar() {
                         </a>
                       </li>
                       <li>
-                        <a href="https://gotytv.com/profile" className="dropdown-item">
+                        <a href="/patient/profile" className="dropdown-item">
                           My Profile
                         </a>
                       </li>
@@ -96,13 +96,13 @@ export default function Navbar() {
                   </li>
                   </div>
               ) : (
-                  <div>
+                  <div className="d-flex">
                     <li className="nav-item">
                       <Link className="btn btn-danger nav-link" to="/users/login">
                         User Login
                       </Link>
                     </li>
-                    <li className="nav-item">
+                    <li className="ms-3 nav-item">
                       <Link className="btn btn-outline-light nav-link" to="/users/register">
                         Add User
                       </Link>

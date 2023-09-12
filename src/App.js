@@ -14,11 +14,11 @@ import NewLaboratory from './laboratory/newLaboratory';
 import NewPharmacy from './pharmacy/pharmacy';
 import NewDoctor from './hospital/registerDoctor';
 import NewPatient from "./patient/newPatient";
-
+import PatientDashboard from "./patient/patientDashboard";
 
 function App() {
   return (
-      <div className="App" style={{backgroundColor: '#202124'}}>
+      <div className="App" style={{backgroundColor: '#202124', height:'100vh'}}>
         <Router>
           <Navbar />
           <div className="container">
@@ -32,6 +32,7 @@ function App() {
             <Route exact path="pharmacy/register" element={<NewPharmacy />} />
             <Route exact path="hospital/doctor/register" element={<NewDoctor />}/>
             <Route exact path="patient/register" element={<NewPatient/>}/>
+            <Route exact path="patient/dashboard" element={<PatientDashboard/>}/>
           </Routes>
           </div>
         </Router>
