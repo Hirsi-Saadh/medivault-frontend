@@ -8,12 +8,15 @@ import {
     faHome,
     faPrescriptionBottle, faRightFromBracket, faUser
 } from '@fortawesome/free-solid-svg-icons';
-import {auth} from "../../firebase";
+import {auth, useAuth} from "../../firebase";
 import {useNavigate} from 'react-router-dom'
+import {useUserData} from "../../users/userUtils";
 
 function SidePane() {
 
     const navigate = useNavigate();
+    const user = useAuth(); // Replace with your Firebase authentication hook
+    const { userType } = useUserData(user);
 
     const handleLogout = async () => {
         try {
@@ -45,6 +48,13 @@ function SidePane() {
         setIsSubMenu4Collapsed(!isSubMenu4Collapsed);
     };
 
+    //dashboard link
+    const dashboardLink = `/${userType}/dashboard`;
+
+    //profile link
+    const profileLink = `/${userType}/profile`;
+
+
 
     return (
         <div className="col-auto col-md-3 col-xl-2 px-sm-2 px-0" style={{ borderRight: '2px solid #171717'}}>
@@ -55,7 +65,7 @@ function SidePane() {
                     </h4>
 
                     <li className="nav-item">
-                        <a className="nav-link align-middle px-0 text-light" href="/patient/dashboard">
+                        <a className="nav-link align-middle px-0 text-light" href={dashboardLink}>
                             <FontAwesomeIcon icon={faHome}/> <span className="ms-1 d-none d-sm-inline">Dashboard</span>
                         </a>
                     </li>
@@ -180,7 +190,7 @@ function SidePane() {
                     </h4>
 
                     <li>
-                        <a className="nav-link px-0 align-middle text-light" href="/patient/profile">
+                        <a className="nav-link px-0 align-middle text-light" href={profileLink}>
                             <FontAwesomeIcon icon={faUser}/> <span className="ms-2 d-none d-sm-inline">My Profile</span>
                         </a>
                     </li>

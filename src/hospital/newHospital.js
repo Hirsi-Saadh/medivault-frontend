@@ -1,25 +1,42 @@
 import axios from "axios";
 import React, { useState } from 'react';
-import { useNavigate } from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 
 export default function NewHospital() {
     let navigate = useNavigate();
 
+    const { search } = useLocation();
+    const params = new URLSearchParams(search);
+    const uidFromQuery = params.get('uid');
+
     const [hospital, setHospital] = useState({
-        uid: "",
+        uid: uidFromQuery,
         hospitalName: '',
         hospitalAddress: '',
         hospitalLicense: '',
         hospitalType: '',
-        medicalLicenseBlob: '', // Store the file object
+        medicalLicenseBlob: null, // Store the file object
+        medicalLicenseBase64: '', // Store the base64-encoded image
     });
 
-    const { hospitalName, hospitalAddress, hospitalLicense, hospitalType, medicalLicenseBlob } = hospital;
+    // eslint-disable-next-line no-unused-vars
+    const { hospitalName, hospitalAddress, hospitalLicense, hospitalType, medicalLicenseBase64 } = hospital;
 
     const onInputChange = (e) => {
-        if (e.target.name === "medicalLicenseBlob") {
-            // Handle file input separately
-            setHospital({ ...hospital, [e.target.name]: e.target.files[0] });
+        if (e.target.name === 'medicalLicenseBlob') {
+            const file = e.target.files[0];
+            if (file) {
+                // Read the selected image file and convert it to a base64 string
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    setHospital({
+                        ...hospital,
+                        medicalLicenseBlob: file,
+                        medicalLicenseBase64: event.target.result.split(',')[1], // Extract base64 data
+                    });
+                };
+                reader.readAsDataURL(file);
+            }
         } else {
             setHospital({ ...hospital, [e.target.name]: e.target.value });
         }
@@ -35,8 +52,7 @@ export default function NewHospital() {
             formData.append("hospitalAddress", hospital.hospitalAddress);
             formData.append("hospitalLicense", hospital.hospitalLicense);
             formData.append("hospitalType", hospital.hospitalType);
-            formData.append("medicalLicenseBlob", hospital.medicalLicenseBlob);
-            
+            formData.append("medicalLicenseBase64", hospital.medicalLicenseBase64); // Send the base64-encoded image
 
             const response = await axios.post('http://localhost:8080/hospital/add', formData, {
                 headers: {
@@ -55,7 +71,7 @@ export default function NewHospital() {
     return (
         <div className="container">
             <div className="row">
-                <div className="col-md-6 offset-md-3 border rounded p-4 mt-2 shadow">
+                <div className="col-md-6 offset-md-3 border rounded p-4 mt-2 shadow text-light">
                     <h2 className="text-center m-4">Register Hospital</h2>
                     <form onSubmit={(e) => onSubmit(e)}>
                         <div className="mb-3">
@@ -67,6 +83,7 @@ export default function NewHospital() {
                                 className="form-control"
                                 placeholder="Enter hospital name"
                                 name="hospitalName"
+                                id="hospitalName"
                                 value={hospitalName}
                                 onChange={(e) => onInputChange(e)}
                             />
@@ -80,6 +97,7 @@ export default function NewHospital() {
                                 className="form-control"
                                 placeholder="Enter license number"
                                 name="hospitalLicense"
+                                id="hospitalLicense"
                                 value={hospitalLicense}
                                 onChange={(e) => onInputChange(e)}
                             />
@@ -93,6 +111,7 @@ export default function NewHospital() {
                                 className="form-control"
                                 placeholder="Enter hospital address"
                                 name="hospitalAddress"
+                                id="hospitalAddress"
                                 value={hospitalAddress}
                                 onChange={(e) => onInputChange(e)}
                             />
@@ -105,6 +124,7 @@ export default function NewHospital() {
                                 className="form-select"
                                 placeholder="Select hospital type"
                                 name="hospitalType"
+                                id="hospitalType"
                                 value={hospitalType}
                                 onChange={(e) => onInputChange(e)}
                             >
@@ -121,6 +141,7 @@ export default function NewHospital() {
                             <input
                                 type="file"
                                 className="form-control"
+                                id="medicalLicenseBlob"
                                 name="medicalLicenseBlob"
                                 onChange={(e) => onInputChange(e)}
                             />

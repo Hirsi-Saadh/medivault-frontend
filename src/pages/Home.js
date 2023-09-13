@@ -18,7 +18,7 @@ const Home = () => {
             case 'doctor'||'DOCTOR':
                 navigate('/doctor');
                 break;
-            case 'HOSPITAL':
+            case 'HOSPITAL'|| 'hospital':
                 navigate(`/hospital/dashboard`);
                 break;
             case 'PHARMACY':

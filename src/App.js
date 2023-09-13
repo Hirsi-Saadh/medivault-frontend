@@ -8,13 +8,15 @@ import Navbar from './components/layout/Navbar';
 import NewUser from './users/NewUser';
 import UserLogin from './users/UserLogin';
 import Home from './pages/Home';
-import PatientProfile from './patient/PatientProfile';
+import PatientProfile from './patient/patientProfile';
 import NewHospital from './hospital/newHospital';
 import NewLaboratory from './laboratory/newLaboratory';
 import NewPharmacy from './pharmacy/pharmacy';
 import NewDoctor from './hospital/registerDoctor';
 import NewPatient from "./patient/newPatient";
 import PatientDashboard from "./patient/patientDashboard";
+import HospitalDashboard from "./hospital/hospitalDashboard";
+import HospitalProfile from "./hospital/hospitalProfile";
 
 function App() {
   return (
@@ -33,6 +35,8 @@ function App() {
             <Route exact path="hospital/doctor/register" element={<NewDoctor />}/>
             <Route exact path="patient/register" element={<NewPatient/>}/>
             <Route exact path="patient/dashboard" element={<PatientDashboard/>}/>
+            <Route exact path="hospital/dashboard" element={<HospitalDashboard/>}/>
+            <Route exact path="hospital/profile" element={<HospitalProfile/>}/>
           </Routes>
           </div>
         </Router>
