@@ -12,11 +12,15 @@ import PatientProfile from './patient/patientProfile';
 import NewHospital from './hospital/newHospital';
 import NewLaboratory from './laboratory/newLaboratory';
 import NewPharmacy from './pharmacy/pharmacy';
-import NewDoctor from './hospital/registerDoctor';
+import NewDoctor from "./doctor/newDoctor";
 import NewPatient from "./patient/newPatient";
 import PatientDashboard from "./patient/patientDashboard";
 import HospitalDashboard from "./hospital/hospitalDashboard";
 import HospitalProfile from "./hospital/hospitalProfile";
+import AddDoctorDetails from "./doctor/AddDoctorDetails";
+import DoctorDashboard from "./doctor/doctorDashboard";
+import DoctorProfile from "./doctor/doctorProfile";
+
 
 function App() {
   return (
@@ -37,6 +41,10 @@ function App() {
             <Route exact path="patient/dashboard" element={<PatientDashboard/>}/>
             <Route exact path="hospital/dashboard" element={<HospitalDashboard/>}/>
             <Route exact path="hospital/profile" element={<HospitalProfile/>}/>
+            <Route exact path="hospital/newdoctor" element={<NewDoctor/>}/>
+            <Route exact path="hospital/newdoctor/adddetails" element={<AddDoctorDetails/>}/>
+            <Route exact path="doctor/dashboard" element={<DoctorDashboard/>}/>
+            <Route exact path="doctor/profile" element={<DoctorProfile/>}/>
           </Routes>
           </div>
         </Router>

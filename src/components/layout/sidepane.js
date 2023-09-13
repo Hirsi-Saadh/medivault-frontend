@@ -6,7 +6,7 @@ import {
     faFileMedical,
     faHandDots,
     faHome,
-    faPrescriptionBottle, faRightFromBracket, faUser
+    faPrescriptionBottle, faRightFromBracket, faUser, faUserDoctor
 } from '@fortawesome/free-solid-svg-icons';
 import {auth, useAuth} from "../../firebase";
 import {useNavigate} from 'react-router-dom'
@@ -50,12 +50,15 @@ function SidePane() {
 
     //dashboard link
     const dashboardLink = `/${userType}/dashboard`;
-
     //profile link
     const profileLink = `/${userType}/profile`;
 
+    //Hospital
+    //add doctor
+    const addDoctorLink = '/hospital/newdoctor'
+
     // patient menu
-    const prescriptionsMenu = userType === 'patient' ? (
+    const patientMenu = userType.toLowerCase() === 'patient' ? (
         <>
         <li>
             <a
@@ -136,6 +139,38 @@ function SidePane() {
         </>
     ) : null;
 
+    const hospitalMenu = userType.toLowerCase() === 'hospital' ? (
+
+        <>
+            <li>
+                <a
+                    href="#"
+                    onClick={toggleSubMenu1}
+                    className="nav-link px-0 align-middle text-light"
+                >
+                    <FontAwesomeIcon icon={faUserDoctor}/> <span className="ms-2 d-none d-sm-inline">Doctors</span>
+                </a>
+                <ul
+                    className={`collapse ${isSubMenu1Collapsed ? "" : "show"} nav flex-column ms-1`}
+                    id="submenu1"
+                    data-bs-parent="#menu"
+                >
+                    <li className="w-100">
+                        <a className="nav-link px-0 text-light">
+                            <span className="d-none d-sm-inline">&nbsp;&nbsp;View</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a className="nav-link px-0 text-light" href={addDoctorLink}>
+                            <span className="d-none d-sm-inline">&nbsp;&nbsp;Add</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            </>
+
+    ) : null;
+
     return (
         <div className="col-auto col-md-3 col-xl-2 px-sm-2 px-0" style={{ borderRight: '2px solid #171717'}}>
             <div className="d-flex flex-column">
@@ -149,7 +184,8 @@ function SidePane() {
                             <FontAwesomeIcon icon={faHome}/> <span className="ms-1 d-none d-sm-inline">Dashboard</span>
                         </a>
                     </li>
-                    {prescriptionsMenu}
+                    {patientMenu}
+                    {hospitalMenu}
 
 
                     <li>

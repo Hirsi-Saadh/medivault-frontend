@@ -16,7 +16,7 @@ const Home = () => {
                 navigate(`/patient/dashboard`);
                 break;
             case 'doctor':
-                navigate('/doctor');
+                navigate('/doctor/dashboard');
                 break;
             case 'hospital':
                 navigate(`/hospital/dashboard`);
