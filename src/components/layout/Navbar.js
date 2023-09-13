@@ -26,6 +26,9 @@ export default function Navbar() {
     }
   };
 
+  //profile link
+  const profileLink = `/${userType}/profile`;
+
   return (
       <nav className="navbar navbar-expand-lg navbar-dark" style={{ backgroundColor: '#171717' }}>
         <div className="container">
@@ -85,7 +88,7 @@ export default function Navbar() {
                         </a>
                       </li>
                       <li>
-                        <a href="/patient/profile" className="dropdown-item">
+                        <a href={profileLink} className="dropdown-item">
                           My Profile
                         </a>
                       </li>

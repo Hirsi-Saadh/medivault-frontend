@@ -54,7 +54,87 @@ function SidePane() {
     //profile link
     const profileLink = `/${userType}/profile`;
 
+    // patient menu
+    const prescriptionsMenu = userType === 'patient' ? (
+        <>
+        <li>
+            <a
+                href="#"
+                onClick={toggleSubMenu1}
+                className="nav-link px-0 align-middle text-light"
+            >
+                <FontAwesomeIcon icon={faPrescriptionBottle}/> <span className="ms-2 d-none d-sm-inline">Prescriptions</span>
+            </a>
+            <ul
+                className={`collapse ${isSubMenu1Collapsed ? "" : "show"} nav flex-column ms-1`}
+                id="submenu1"
+                data-bs-parent="#menu"
+            >
+                <li className="w-100">
+                    <a className="nav-link px-0 text-light">
+                        <span className="d-none d-sm-inline">&nbsp;&nbsp;View</span>
+                    </a>
+                </li>
+                <li>
+                    <a className="nav-link px-0 text-light">
+                        <span className="d-none d-sm-inline">&nbsp;&nbsp;Add</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a
+                href="#"
+                onClick={toggleSubMenu2}
+                className="nav-link px-0 align-middle text-light"
+            >
+                <FontAwesomeIcon icon={faHandDots}/> <span className="ms-1 d-none d-sm-inline">Allergies</span>
+            </a>
+            <ul
+                className={`collapse ${isSubMenu2Collapsed ? "" : "show"} nav flex-column ms-1`}
+                id="submenu2"
+                data-bs-parent="#menu"
+            >
+                <li className="w-100">
+                    <a className="nav-link px-0 text-light">
+                        <span className="d-none d-sm-inline">&nbsp;&nbsp;View</span>
+                    </a>
+                </li>
+                <li>
+                    <a className="nav-link px-0 text-light">
+                        <span className="d-none d-sm-inline">&nbsp;&nbsp;Add</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
 
+        <li>
+            <a
+                href="#"
+                onClick={toggleSubMenu3}
+                className="nav-link px-0 align-middle text-light"
+            >
+                <FontAwesomeIcon icon={faCommentMedical}/> <span className="ms-1 d-none d-sm-inline">Diagnoses</span>
+            </a>
+            <ul
+                className={`collapse ${isSubMenu3Collapsed ? "" : "show"} nav flex-column ms-1`}
+                id="submenu3"
+                data-bs-parent="#menu"
+            >
+                <li className="w-100">
+                    <a className="nav-link px-0 text-light">
+                        <span className="d-none d-sm-inline">&nbsp;&nbsp;View</span>
+                    </a>
+                </li>
+                <li>
+                    <a className="nav-link px-0 text-light">
+                        <span className="d-none d-sm-inline">&nbsp;&nbsp;Add</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        </>
+    ) : null;
 
     return (
         <div className="col-auto col-md-3 col-xl-2 px-sm-2 px-0" style={{ borderRight: '2px solid #171717'}}>
@@ -69,83 +149,8 @@ function SidePane() {
                             <FontAwesomeIcon icon={faHome}/> <span className="ms-1 d-none d-sm-inline">Dashboard</span>
                         </a>
                     </li>
-                    <li>
-                        <a
-                            href="#"
-                            onClick={toggleSubMenu1}
-                            className="nav-link px-0 align-middle text-light"
-                        >
-                            <FontAwesomeIcon icon={faPrescriptionBottle}/> <span className="ms-2 d-none d-sm-inline">Prescriptions</span>
-                        </a>
-                        <ul
-                            className={`collapse ${isSubMenu1Collapsed ? "" : "show"} nav flex-column ms-1`}
-                            id="submenu1"
-                            data-bs-parent="#menu"
-                        >
-                            <li className="w-100">
-                                <a className="nav-link px-0 text-light">
-                                    <span className="d-none d-sm-inline">&nbsp;&nbsp;View</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a className="nav-link px-0 text-light">
-                                    <span className="d-none d-sm-inline">&nbsp;&nbsp;Add</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
+                    {prescriptionsMenu}
 
-                    <li>
-                        <a
-                            href="#"
-                            onClick={toggleSubMenu2}
-                            className="nav-link px-0 align-middle text-light"
-                        >
-                            <FontAwesomeIcon icon={faHandDots}/> <span className="ms-1 d-none d-sm-inline">Allergies</span>
-                        </a>
-                        <ul
-                            className={`collapse ${isSubMenu2Collapsed ? "" : "show"} nav flex-column ms-1`}
-                            id="submenu2"
-                            data-bs-parent="#menu"
-                        >
-                            <li className="w-100">
-                                <a className="nav-link px-0 text-light">
-                                    <span className="d-none d-sm-inline">&nbsp;&nbsp;View</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a className="nav-link px-0 text-light">
-                                    <span className="d-none d-sm-inline">&nbsp;&nbsp;Add</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-
-                    <li>
-                        <a
-                            href="#"
-                            onClick={toggleSubMenu3}
-                            className="nav-link px-0 align-middle text-light"
-                        >
-                            <FontAwesomeIcon icon={faCommentMedical}/> <span className="ms-1 d-none d-sm-inline">Diagnoses</span>
-                        </a>
-                        <ul
-                            className={`collapse ${isSubMenu3Collapsed ? "" : "show"} nav flex-column ms-1`}
-                            id="submenu3"
-                            data-bs-parent="#menu"
-                        >
-                            <li className="w-100">
-                                <a className="nav-link px-0 text-light">
-                                    <span className="d-none d-sm-inline">&nbsp;&nbsp;View</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a className="nav-link px-0 text-light">
-                                    <span className="d-none d-sm-inline">&nbsp;&nbsp;Add</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
 
                     <li>
                         <a

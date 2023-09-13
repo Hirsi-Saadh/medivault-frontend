@@ -141,9 +141,7 @@ export default function NewUser() {
                                 value={userType}
                                 onChange={(e) => onInputChange(e)}
                             >
-                                <option value="">Select user type</option>
                                 <option value="PATIENT">Patient</option>
-                                <option value="DOCTOR">Doctor</option>
                                 <option value="HOSPITAL">Hospital</option>
                                 <option value="PHARMACY">Pharmacy</option>
                                 <option value="LABORATORY">Laboratory</option>
