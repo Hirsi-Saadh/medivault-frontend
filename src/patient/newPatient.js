@@ -21,6 +21,7 @@ const NewPatient = () => {
         // Add any other fields you need
     });
 
+    // eslint-disable-next-line no-unused-vars
     const { uid, firstName, lastName, age, address, dateOfBirth } = patientInfo;
 
     const handleChange = (e) => {

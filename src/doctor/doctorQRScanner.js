@@ -30,6 +30,7 @@ export default function DoctorQRScanner() {
     };
 
     // Function to handle QR code scan error
+    // eslint-disable-next-line no-unused-vars
     const handleError = (err) => {
         console.error(err);
     };
