@@ -27,7 +27,7 @@ export default function UserLogin() {
       if (response.user) {
         // Fetch user type from your Spring Boot backend
         const uid = response.user.uid;
-        const userTypeResponse = await axios.get(`http://localhost:8080/users/usertype?uid=${uid}`);
+        const userTypeResponse = await axios.get(`http://ec2-13-53-36-88.eu-north-1.compute.amazonaws.com:8080/users/usertype?uid=${uid}`);
 
         if (userTypeResponse.status === 200) {
           const userType = userTypeResponse.data;

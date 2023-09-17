@@ -11,20 +11,20 @@ const Home = () => {
     // Check if the user is authenticated
     if (user) {
         // If authenticated, navigate to the dashboard
-        switch (userType) {
-            case 'patient'||'PATIENT':
+        switch (userType.toLowerCase()) {
+            case 'patient':
                 navigate(`/patient/dashboard`);
                 break;
-            case 'doctor'||'DOCTOR':
-                navigate('/doctor');
+            case 'doctor':
+                navigate('/doctor/dashboard');
                 break;
-            case 'HOSPITAL':
+            case 'hospital':
                 navigate(`/hospital/dashboard`);
                 break;
-            case 'PHARMACY':
+            case 'pharmacy':
                 navigate('/pharmacy/pharmacy');
                 break;
-            case 'LABORATORY':
+            case 'laboratory':
                 navigate('/laboratory/dashboard');
                 break;
             default:

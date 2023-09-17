@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import {useAuth} from "../firebase";
-import {useUserData} from "../users/userUtils";
+import { useAuth } from '../firebase';
+import { useUserData } from '../users/userUtils';
 
-export function usePatientData(patient) {
-
+export function usePatientData(initialPatient = null) {
     const user = useAuth(); // Replace with your Firebase authentication hook
     const { userType, email, username } = useUserData(user);
 
+    const [patient, setPatient] = useState(initialPatient);
     const [FirstName, setFirstName] = useState('');
     const [LastName, setLastName] = useState('');
     const [Age, setAge] = useState('');
@@ -15,12 +15,19 @@ export function usePatientData(patient) {
     const [DateOfBirth, setDateOfBirth] = useState('');
 
     useEffect(() => {
+        if (initialPatient) {
+            // If an initial patient is provided, set it as the current patient
+            setPatient(initialPatient);
+        }
+    }, [initialPatient]);
+
+    useEffect(() => {
         if (patient) {
             const fetchData = async () => {
                 try {
                     const uid = patient.uid;
-                    console.log({uid})
-                    const patientTypeResponse = await axios.get(`http://localhost:8080/patients/info?uid=${uid}`);
+                    console.log({ uid });
+                    const patientTypeResponse = await axios.get(`http://ec2-13-53-36-88.eu-north-1.compute.amazonaws.com:8080/patients/info?uid=${uid}`);
 
                     if (patientTypeResponse.status === 200) {
                         const patientData = patientTypeResponse.data;
@@ -41,5 +48,20 @@ export function usePatientData(patient) {
         }
     }, [patient]);
 
-    return { userType, username, email, FirstName, LastName, Age, Address, DateOfBirth };
+    // Add a function to manually set the patient by uid
+    const setPatientByUid = async (uid) => {
+        setPatient({ uid }); // You can add more properties as needed
+    };
+
+    return {
+        userType,
+        username,
+        email,
+        FirstName,
+        LastName,
+        Age,
+        Address,
+        DateOfBirth,
+        setPatientByUid, // Function to manually set the patient
+    };
 }

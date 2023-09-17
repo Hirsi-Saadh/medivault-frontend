@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -8,6 +8,8 @@ const NewPatient = () => {
     const { search } = useLocation();
     const params = new URLSearchParams(search);
     const uidFromQuery = params.get('uid');
+
+    const navigate = useNavigate();
 
     const [patientInfo, setPatientInfo] = useState({
         uid: uidFromQuery,
@@ -42,6 +44,7 @@ const NewPatient = () => {
 
             // Handle the response as needed (e.g., show a success message)
             console.log('Patient information added:', response.data);
+            navigate('/');
 
             // Clear the form fields
             setPatientInfo({
@@ -51,6 +54,8 @@ const NewPatient = () => {
                 age: '',
                 address: '',
                 // Clear any other fields you need
+
+
             });
         } catch (error) {
             // Handle errors, e.g., display an error message
@@ -59,7 +64,7 @@ const NewPatient = () => {
     };
 
     return (
-        <div className="container">
+        <div className="col-md-5 offset-md-3 mt-3 container text-light">
             <h2>Add New Patient Information</h2>
             <form onSubmit={handleSubmit}>
                 <div className="mb-3">
