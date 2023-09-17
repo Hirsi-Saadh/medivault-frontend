@@ -20,7 +20,7 @@ export function useHospitalData(hospital) {
                 try {
                     const uid = hospital.uid;
                     console.log({uid})
-                    const hospitalTypeResponse = await axios.get(`http://localhost:8080/hospital/info?uid=${uid}`);
+                    const hospitalTypeResponse = await axios.get(`http://192.168.8.10:8080/hospital/info?uid=${uid}`);
 
                     if (hospitalTypeResponse.status === 200) {
                         const hospitalData = hospitalTypeResponse.data;

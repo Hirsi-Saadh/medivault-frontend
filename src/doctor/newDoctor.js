@@ -44,7 +44,7 @@ export default function NewDoctor() {
             console.log('User registered:', firebaseUser);
 
             // Determine the redirect destination based on user type
-            navigate(`/hospital/newdoctor/adddetails?uid=${firebaseUser.uid}`);
+            navigate(`/hospital/doctor/addDetails?uid=${firebaseUser.uid}`);
 
         } catch (error) {
             // Handle errors, e.g., display an error message

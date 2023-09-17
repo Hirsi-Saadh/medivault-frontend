@@ -6,7 +6,7 @@ import {
     faFileMedical,
     faHandDots,
     faHome,
-    faPrescriptionBottle, faRightFromBracket, faUser, faUserDoctor
+    faPrescriptionBottle, faQrcode, faRightFromBracket, faUser, faUserDoctor
 } from '@fortawesome/free-solid-svg-icons';
 import {auth, useAuth} from "../../firebase";
 import {useNavigate} from 'react-router-dom'
@@ -55,7 +55,17 @@ function SidePane() {
 
     //Hospital
     //add doctor
-    const addDoctorLink = '/hospital/newdoctor'
+    const addDoctorLink = '/hospital/doctor/register'
+    const viewDoctorLink = '/hospital/doctor/list'
+
+    //Patient
+    //qr
+    const qrViewLink = '/patient/view/qr'
+
+
+    //Doctor
+    //qr
+    const qrScanLink = '/doctor/scan/qr'
 
     // patient menu
     const patientMenu = userType.toLowerCase() === 'patient' ? (
@@ -136,9 +146,15 @@ function SidePane() {
                 </li>
             </ul>
         </li>
+        <li>
+            <a className="nav-link px-0 align-middle text-light" href={qrViewLink}>
+                <FontAwesomeIcon icon={faQrcode}/> <span className="ms-2 d-none d-sm-inline">View QR</span>
+            </a>
+        </li>
         </>
     ) : null;
 
+    // hospital
     const hospitalMenu = userType.toLowerCase() === 'hospital' ? (
 
         <>
@@ -156,7 +172,7 @@ function SidePane() {
                     data-bs-parent="#menu"
                 >
                     <li className="w-100">
-                        <a className="nav-link px-0 text-light">
+                        <a className="nav-link px-0 text-light" href={viewDoctorLink}>
                             <span className="d-none d-sm-inline">&nbsp;&nbsp;View</span>
                         </a>
                     </li>
@@ -168,6 +184,19 @@ function SidePane() {
                 </ul>
             </li>
             </>
+
+    ) : null;
+
+    // doctor
+    const doctorMenu = userType.toLowerCase() === 'doctor' ? (
+
+        <>
+            <li>
+                <a className="nav-link px-0 align-middle text-light" href={qrScanLink}>
+                    <FontAwesomeIcon icon={faQrcode}/> <span className="ms-2 d-none d-sm-inline">Scan QR</span>
+                </a>
+            </li>
+        </>
 
     ) : null;
 
@@ -186,7 +215,7 @@ function SidePane() {
                     </li>
                     {patientMenu}
                     {hospitalMenu}
-
+                    {doctorMenu}
 
                     <li>
                         <a

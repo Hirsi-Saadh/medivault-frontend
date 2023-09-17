@@ -71,7 +71,7 @@ export default function NewUser() {
     async function saveUserDataToMySQL(userData) {
         try {
             // Send a POST request to your backend endpoint to save user data
-            await axios.post('http://localhost:8080/users/register', userData, {
+            await axios.post('http://ec2-13-53-36-88.eu-north-1.compute.amazonaws.com:8080/users/register', userData, {
                 headers: {
                     'Content-Type': 'application/json',
                 },

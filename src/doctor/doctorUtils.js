@@ -24,7 +24,7 @@ export function useDoctorData(doctor) {
                 try {
                     const uid = doctor.uid;
                     console.log({ uid });
-                    const doctorTypeResponse = await axios.get(`http://localhost:8080/doctor/info?uid=${uid}`);
+                    const doctorTypeResponse = await axios.get(`http://192.168.8.10:8080/doctor/info?uid=${uid}`);
 
                     if (doctorTypeResponse.status === 200) {
                         const doctorData = doctorTypeResponse.data;
