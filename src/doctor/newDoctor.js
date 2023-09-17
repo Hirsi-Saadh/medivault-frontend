@@ -3,14 +3,14 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import firebase from '../firebase';
 
-export default function NewUser() {
+export default function NewDoctor() {
     let navigate = useNavigate();
 
     const [user, setUser] = useState({
         username: '',
         password: '',
         email: '',
-        userType: '',
+        userType: 'DOCTOR',
     });
 
     const { username, password, email, userType } = user;
@@ -44,34 +44,18 @@ export default function NewUser() {
             console.log('User registered:', firebaseUser);
 
             // Determine the redirect destination based on user type
-            switch (userType) {
-                case 'PATIENT':
-                    navigate(`/patient/register?uid=${firebaseUser.uid}`);
-                    break;
-                case 'HOSPITAL':
-                    navigate(`/hospital/register?uid=${firebaseUser.uid}`);
-                    break;
-                case 'PHARMACY':
-                    navigate('/pharmacy');
-                    break;
-                case 'LABORATORY':
-                    navigate('/laboratory');
-                    break;
-                default:
-                    // Default redirect if user type is not recognized
-                    navigate('/default');
-                    break;
-            }
+            navigate(`/hospital/doctor/addDetails?uid=${firebaseUser.uid}`);
+
         } catch (error) {
             // Handle errors, e.g., display an error message
-            console.error('Error registering user:', error);
+            console.error('Error registering doctor:', error);
         }
     };
 
     async function saveUserDataToMySQL(userData) {
         try {
             // Send a POST request to your backend endpoint to save user data
-            await axios.post('http://ec2-13-53-36-88.eu-north-1.compute.amazonaws.com:8080/users/register', userData, {
+            await axios.post('http://localhost:8080/users/register', userData, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -86,7 +70,7 @@ export default function NewUser() {
         <div className="container">
             <div className="row">
                 <div className="col-md-6 offset-md-3 border rounded p-4 mt-2 shadow">
-                    <h2 className="text-center m-4">Register User</h2>
+                    <h2 className="text-center m-4">Register Doctor</h2>
                     <form onSubmit={(e) => onSubmit(e)}>
                         <div className="mb-3">
                             <label htmlFor="UserName" className="form-label">
@@ -126,23 +110,6 @@ export default function NewUser() {
                                 value={email}
                                 onChange={(e) => onInputChange(e)}
                             ></input>
-                        </div>
-                        <div className="mb-3">
-                            <label htmlFor="userType" className="form-label">
-                                User Type
-                            </label>
-                            <select
-                                className="form-select"
-                                placeholder="Select User"
-                                name="userType"
-                                value={userType}
-                                onChange={(e) => onInputChange(e)}
-                            >
-                                <option value="PATIENT">Patient</option>
-                                <option value="HOSPITAL">Hospital</option>
-                                <option value="PHARMACY">Pharmacy</option>
-                                <option value="LABORATORY">Laboratory</option>
-                            </select>
                         </div>
                         <button type="submit" className="btn btn-outline-primary">
                             Next

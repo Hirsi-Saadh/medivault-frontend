@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import { Link } from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import { auth, useAuth } from '../../firebase';
 import {useUserData} from "../../users/userUtils"; // Import your Firebase authentication module here
 
@@ -14,20 +14,25 @@ export default function Navbar() {
     console.log('Username:', username);
   }, [userType, email, username]);
 
+  const navigate = useNavigate();
 
   const handleLogout = async () => {
     try {
       await auth.signOut();
       console.log('Logged out successfully');
+      navigate('/');
     } catch (error) {
       console.error('Error logging out:', error);
     }
   };
 
+  //profile link
+  const profileLink = `/${userType}/profile`;
+
   return (
       <nav className="navbar navbar-expand-lg navbar-dark" style={{ backgroundColor: '#171717' }}>
         <div className="container">
-          <a className="navbar-brand" href="#" style={{ textTransform: 'uppercase', fontWeight: '700', fontSize: '26px' }}>
+          <a className="navbar-brand" href="/" style={{ textTransform: 'uppercase', fontWeight: '700', fontSize: '26px' }}>
             Medi Vault
           </a>
           <button
@@ -83,7 +88,7 @@ export default function Navbar() {
                         </a>
                       </li>
                       <li>
-                        <a href="/patient/profile" className="dropdown-item">
+                        <a href={profileLink} className="dropdown-item">
                           My Profile
                         </a>
                       </li>

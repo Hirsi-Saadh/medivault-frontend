@@ -19,6 +19,8 @@ export default function PatientDashboard() {
         console.log('DOB:', DateOfBirth);
     }, [userType, email, username, FirstName, LastName, Age, Address, DateOfBirth]);
 
+
+
     return (
         <div className="d-flex" style={{maxHeight: '80vh'}}>
             <Sidepane />
