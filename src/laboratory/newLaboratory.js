@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
+import springApiUrl from "../springConfig";
 
 export default function NewLaboratory() {
     let navigate = useNavigate();
@@ -24,7 +25,7 @@ export default function NewLaboratory() {
 
         try {
             const response = await axios.post(
-                "http://localhost:8080/laboratories/register",
+                `${springApiUrl}:8080/laboratories/register`,
                 laboratory, // Send laboratory data to the server
                 {
                     headers: {
@@ -46,7 +47,7 @@ export default function NewLaboratory() {
 
     async function getCsrfToken() {
         try {
-            const response = await axios.get("http://localhost:8080/csrf/token");
+            const response = await axios.get(`${springApiUrl}/csrf/token`);
             const csrfToken = response.data;
             console.log("This is the CSRF Token:", csrfToken);
             return csrfToken;

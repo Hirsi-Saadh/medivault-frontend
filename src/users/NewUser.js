@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import firebase from '../firebase';
+import springApiUrl from '../springConfig';
 
 export default function NewUser() {
     let navigate = useNavigate();
@@ -13,6 +14,9 @@ export default function NewUser() {
         userType: '',
     });
 
+    const [isLoading, setIsLoading] = useState(false); // Add loading state
+    const [error, setError] = useState(null);
+
     const { username, password, email, userType } = user;
 
     const onInputChange = (e) => {
@@ -23,6 +27,8 @@ export default function NewUser() {
         e.preventDefault();
 
         try {
+            setIsLoading(true); // Start loading
+
             // Create a new user in Firebase Authentication
             const response = await firebase
                 .auth()
@@ -45,16 +51,16 @@ export default function NewUser() {
 
             // Determine the redirect destination based on user type
             switch (userType) {
-                case 'PATIENT':
+                case 'patient':
                     navigate(`/patient/register?uid=${firebaseUser.uid}`);
                     break;
-                case 'HOSPITAL':
+                case 'hospital':
                     navigate(`/hospital/register?uid=${firebaseUser.uid}`);
                     break;
-                case 'PHARMACY':
+                case 'pharmacy':
                     navigate('/pharmacy');
                     break;
-                case 'LABORATORY':
+                case 'laboratory':
                     navigate('/laboratory');
                     break;
                 default:
@@ -65,13 +71,16 @@ export default function NewUser() {
         } catch (error) {
             // Handle errors, e.g., display an error message
             console.error('Error registering user:', error);
+            setError('Error registering user. Please try again later.');
+        } finally {
+            setIsLoading(false); // Stop loading
         }
     };
 
     async function saveUserDataToMySQL(userData) {
         try {
             // Send a POST request to your backend endpoint to save user data
-            await axios.post('http://ec2-13-53-36-88.eu-north-1.compute.amazonaws.com:8080/users/register', userData, {
+            await axios.post(`${springApiUrl}/users/register`, userData, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -79,6 +88,7 @@ export default function NewUser() {
         } catch (error) {
             // Handle errors, e.g., display an error message
             console.error('Error saving user data to MySQL:', error);
+            setError('Error saving user data. Please try again later.');
         }
     }
 
@@ -87,6 +97,7 @@ export default function NewUser() {
             <div className="row">
                 <div className="col-md-6 offset-md-3 border rounded p-4 mt-2 shadow">
                     <h2 className="text-center m-4">Register User</h2>
+                    {error && <div className="alert alert-danger">{error}</div>}
                     <form onSubmit={(e) => onSubmit(e)}>
                         <div className="mb-3">
                             <label htmlFor="UserName" className="form-label">
@@ -108,7 +119,7 @@ export default function NewUser() {
                             <input
                                 type="password"
                                 className="form-control"
-                                placeholder="Enter your name"
+                                placeholder="Enter your password"
                                 name="password"
                                 value={password}
                                 onChange={(e) => onInputChange(e)}
@@ -138,14 +149,15 @@ export default function NewUser() {
                                 value={userType}
                                 onChange={(e) => onInputChange(e)}
                             >
-                                <option value="PATIENT">Patient</option>
-                                <option value="HOSPITAL">Hospital</option>
-                                <option value="PHARMACY">Pharmacy</option>
-                                <option value="LABORATORY">Laboratory</option>
+                                <option value="">Select User Type</option>
+                                <option value="patient">Patient</option>
+                                <option value="hospital">Hospital</option>
+                                <option value="pharmacy">Pharmacy</option>
+                                <option value="laboratory">Laboratory</option>
                             </select>
                         </div>
                         <button type="submit" className="btn btn-outline-primary">
-                            Next
+                            {isLoading ? 'Registering...' : 'Next'}
                         </button>
                         <button
                             type="button"

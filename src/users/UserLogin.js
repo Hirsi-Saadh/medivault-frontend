@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import firebase from '../firebase';
 import axios from 'axios';
+import springApiUrl from '../springConfig';
 
 export default function UserLogin() {
   let navigate = useNavigate();
@@ -10,6 +11,9 @@ export default function UserLogin() {
     email: '',
     password: '',
   });
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const { email, password } = credentials;
 
@@ -21,29 +25,56 @@ export default function UserLogin() {
     e.preventDefault();
 
     try {
+      setIsLoading(true);
+
       // Sign in with Firebase Authentication
       const response = await firebase.auth().signInWithEmailAndPassword(email, password);
 
       if (response.user) {
         // Fetch user type from your Spring Boot backend
         const uid = response.user.uid;
-        const userTypeResponse = await axios.get(`http://ec2-13-53-36-88.eu-north-1.compute.amazonaws.com:8080/users/usertype?uid=${uid}`);
+        const userTypeResponse = await axios.get(`${springApiUrl}/users/usertype?uid=${uid}`);
 
         if (userTypeResponse.status === 200) {
           const userType = userTypeResponse.data;
           console.log('User Type:', userType);
 
-          // Redirect to the homepage or handle success as needed
-          navigate('/');
+          // Navigate to the success page based on user type
+          // Assuming userType is an object as shown in your example
+          const userTypeValue = userType.userType;
+
+          if (typeof userTypeValue === 'string') {
+            switch (userTypeValue.toLowerCase()) {
+              case 'patient':
+                navigate('/patient/dashboard');
+                break;
+              case 'hospital':
+                navigate('/hospital/dashboard');
+                break;
+                // Add more cases for other user types
+              default:
+                // Redirect to the homepage if user type is not recognized
+                navigate('/');
+                break;
+            }
+          } else {
+            // Handle the case where userTypeValue is not a valid string
+            console.error("Invalid userTypeValue:", userTypeValue);
+            // You can choose to display an error message or handle this case as needed.
+          }
         } else {
-          // Handle errors (e.g., user not found in MySQL)
           console.error('User not found in MySQL.');
+          setError('User not found in MySQL.');
         }
       } else {
         console.error('Login failed:', response);
+        setError('Login failed. Please check your credentials.');
       }
     } catch (error) {
       console.error('Error logging in:', error);
+      setError('Error logging in. Please try again later.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -52,8 +83,9 @@ export default function UserLogin() {
         <div className="row">
           <div className="col-md-5 offset-md-3 border rounded p-4 mt-2 shadow">
             <h2 className="text-center m-4 text-light">Login</h2>
-            <form onSubmit={(e) => onSubmit(e)} >
-              <div className="mb-3" style={{textAlign:'left'}}>
+            {error && <div className="alert alert-danger">{error}</div>}
+            <form onSubmit={(e) => onSubmit(e)}>
+              <div className="mb-3" style={{ textAlign: 'left' }}>
                 <label htmlFor="Email" className="form-label text-light">
                   Email
                 </label>
@@ -66,7 +98,7 @@ export default function UserLogin() {
                     onChange={(e) => onInputChange(e)}
                 />
               </div>
-              <div className="mb-3" style={{textAlign:'left'}}>
+              <div className="mb-3" style={{ textAlign: 'left' }}>
                 <label htmlFor="Password" className="form-label text-light">
                   Password
                 </label>
@@ -80,7 +112,7 @@ export default function UserLogin() {
                 />
               </div>
               <button type="submit" className="btn btn-outline-primary">
-                Login
+                {isLoading ? 'Logging In...' : 'Login'}
               </button>
             </form>
           </div>

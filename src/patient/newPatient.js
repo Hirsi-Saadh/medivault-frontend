@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import springApiUrl from "../springConfig";
 
 const NewPatient = () => {
     const { search } = useLocation();
@@ -37,7 +38,7 @@ const NewPatient = () => {
 
         try {
             // Send a POST request to your Spring Boot backend to save patient information
-            const response = await axios.post('http://localhost:8080/patients/add', patientInfo, {
+            const response = await axios.post(`${springApiUrl}/patients/add`, patientInfo, {
                 headers: {
                     'Content-Type': 'application/json',
                 },

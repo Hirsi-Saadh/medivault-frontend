@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAuth } from '../firebase';
 import { useUserData } from '../users/userUtils';
+import springApiUrl from "../springConfig";
 
 export function usePatientData(initialPatient = null) {
     const user = useAuth(); // Replace with your Firebase authentication hook
@@ -27,7 +28,7 @@ export function usePatientData(initialPatient = null) {
                 try {
                     const uid = patient.uid;
                     console.log({ uid });
-                    const patientTypeResponse = await axios.get(`http://ec2-13-53-36-88.eu-north-1.compute.amazonaws.com:8080/patients/info?uid=${uid}`);
+                    const patientTypeResponse = await axios.get(`${springApiUrl}/patients/info?uid=${uid}`);
 
                     if (patientTypeResponse.status === 200) {
                         const patientData = patientTypeResponse.data;

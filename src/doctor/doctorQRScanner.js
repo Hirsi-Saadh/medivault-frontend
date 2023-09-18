@@ -9,6 +9,7 @@ export default function DoctorQRScanner() {
     const [qrData, setQrData] = useState(null); // Changed the initial state to null
     const [cameraPermissionGranted, setCameraPermissionGranted] = useState(false);
     const [validPatient, setValidPatient] = useState(false);
+    const [isLoadingData, setIsLoadingData] = useState(false); // Loading state for data fetching
 
     const {
         FirstName,
@@ -25,7 +26,15 @@ export default function DoctorQRScanner() {
             setQrData(data);
 
             // Assuming the scanned data is a UID, set the patient based on the UID
-            setPatientByUid(data);
+            setIsLoadingData(true); // Start loading data
+            setPatientByUid(data)
+                .then(() => {
+                    setIsLoadingData(false); // Data fetching complete, stop loading
+                })
+                .catch((error) => {
+                    setIsLoadingData(false); // Data fetching failed, stop loading
+                    console.error(error);
+                });
         }
     };
 
@@ -80,7 +89,9 @@ export default function DoctorQRScanner() {
 
                                 <div>
                                     {qrData && ( // Display error message only when a QR code is detected
-                                        validPatient ? (
+                                        isLoadingData ? ( // Show loading message while fetching data
+                                            <p>Loading patient data...</p>
+                                        ) : validPatient ? (
                                             <div style={{ width: '100%' }}>
                                                 <div style={{ textAlign: 'left' }}>
                                                     <h4>Scanned Patient Details:</h4>

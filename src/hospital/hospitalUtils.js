@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import {useAuth} from "../firebase";
 import {useUserData} from "../users/userUtils";
+import springApiUrl from "../springConfig";
 
 export function useHospitalData(hospital) {
 
@@ -20,7 +21,7 @@ export function useHospitalData(hospital) {
                 try {
                     const uid = hospital.uid;
                     console.log({uid})
-                    const hospitalTypeResponse = await axios.get(`http://192.168.8.10:8080/hospital/info?uid=${uid}`);
+                    const hospitalTypeResponse = await axios.get(`${springApiUrl}/hospital/info?uid=${uid}`);
 
                     if (hospitalTypeResponse.status === 200) {
                         const hospitalData = hospitalTypeResponse.data;

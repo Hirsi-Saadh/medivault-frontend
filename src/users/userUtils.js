@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import springApiUrl from "../springConfig";
 
 export function useUserData(user) {
     const [userType, setUserType] = useState('');
@@ -11,7 +12,7 @@ export function useUserData(user) {
             const fetchData = async () => {
                 try {
                     const uid = user.uid;
-                    const userTypeResponse = await axios.get(`http://192.168.8.10:8080/users/usertype?uid=${uid}`);
+                    const userTypeResponse = await axios.get(`${springApiUrl}/users/usertype?uid=${uid}`);
 
                     if (userTypeResponse.status === 200) {
                         const userData = userTypeResponse.data;

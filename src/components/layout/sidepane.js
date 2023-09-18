@@ -16,7 +16,7 @@ function SidePane() {
 
     const navigate = useNavigate();
     const user = useAuth(); // Replace with your Firebase authentication hook
-    const { userType } = useUserData(user);
+    const { userType, isLoading } = useUserData(user);
 
     const handleLogout = async () => {
         try {
@@ -66,6 +66,17 @@ function SidePane() {
     //Doctor
     //qr
     const qrScanLink = '/doctor/scan/qr'
+
+
+    if (isLoading) {
+        // Display a loading indicator or message
+        return <div>Loading...</div>;
+    }
+
+    if (!userType) {
+        // Handle the case when userType is not available
+        return <div>User data not available.</div>;
+    }
 
     // patient menu
     const patientMenu = userType.toLowerCase() === 'patient' ? (

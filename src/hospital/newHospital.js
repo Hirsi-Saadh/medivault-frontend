@@ -1,6 +1,7 @@
-import axios from "axios";
+import axios from 'axios';
 import React, { useState } from 'react';
-import {useLocation, useNavigate} from "react-router-dom";
+import { useLocation, useNavigate } from 'react-router-dom';
+import springApiUrl from '../springConfig';
 
 export default function NewHospital() {
     let navigate = useNavigate();
@@ -19,8 +20,16 @@ export default function NewHospital() {
         medicalLicenseBase64: '', // Store the base64-encoded image
     });
 
-    // eslint-disable-next-line no-unused-vars
-    const { hospitalName, hospitalAddress, hospitalLicense, hospitalType, medicalLicenseBase64 } = hospital;
+    const [isLoading, setIsLoading] = useState(false); // Add loading state
+    const [error, setError] = useState(null);
+
+    const {
+        hospitalName,
+        hospitalAddress,
+        hospitalLicense,
+        hospitalType,
+        medicalLicenseBase64,
+    } = hospital;
 
     const onInputChange = (e) => {
         if (e.target.name === 'medicalLicenseBlob') {
@@ -46,25 +55,31 @@ export default function NewHospital() {
         e.preventDefault();
 
         try {
-            const formData = new FormData();
-            formData.append("uid", hospital.uid);
-            formData.append("hospitalName", hospital.hospitalName);
-            formData.append("hospitalAddress", hospital.hospitalAddress);
-            formData.append("hospitalLicense", hospital.hospitalLicense);
-            formData.append("hospitalType", hospital.hospitalType);
-            formData.append("medicalLicenseBase64", hospital.medicalLicenseBase64); // Send the base64-encoded image
+            setIsLoading(true); // Start loading
 
-            const response = await axios.post('http://localhost:8080/hospital/add', formData, {
+            const formData = new FormData();
+            formData.append('uid', hospital.uid);
+            formData.append('hospitalName', hospital.hospitalName);
+            formData.append('hospitalAddress', hospital.hospitalAddress);
+            formData.append('hospitalLicense', hospital.hospitalLicense);
+            formData.append('hospitalType', hospital.hospitalType);
+            formData.append('medicalLicenseBase64', hospital.medicalLicenseBase64); // Send the base64-encoded image
+
+            const response = await axios.post(`${springApiUrl}/hospital/add`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data', // Set the content type for file upload
                 },
             });
 
             // Handle the response as needed
-            console.log("Hospital registered:", response.data);
-            navigate("/"); // Redirect or show a success message
+            console.log('Hospital registered:', response.data);
+            navigate('/'); // Redirect or show a success message
         } catch (error) {
-            console.error("Error registering hospital:", error);
+            // Handle errors, e.g., display an error message
+            console.error('Error registering hospital:', error);
+            setError('Error registering hospital. Please try again later.');
+        } finally {
+            setIsLoading(false); // Stop loading
         }
     };
 
@@ -73,6 +88,7 @@ export default function NewHospital() {
             <div className="row">
                 <div className="col-md-6 offset-md-3 border rounded p-4 mt-2 shadow text-light">
                     <h2 className="text-center m-4">Register Hospital</h2>
+                    {error && <div className="alert alert-danger">{error}</div>}
                     <form onSubmit={(e) => onSubmit(e)}>
                         <div className="mb-3">
                             <label htmlFor="hospitalName" className="form-label">
@@ -149,9 +165,13 @@ export default function NewHospital() {
 
                         {/* Add more fields for hospital info */}
                         <button type="submit" className="btn btn-outline-primary">
-                            Submit
+                            {isLoading ? 'Registering...' : 'Submit'}
                         </button>
-                        <button type="button" className="btn btn-outline-danger mx-2" onClick={() => navigate("/")}>
+                        <button
+                            type="button"
+                            className="btn btn-outline-danger mx-2"
+                            onClick={() => navigate('/')}
+                        >
                             Cancel
                         </button>
                     </form>

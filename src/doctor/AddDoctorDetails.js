@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from "react-router-dom";
+import springApiUrl from "../springConfig";
 
 export default function AddDoctorDetails() {
     let navigate = useNavigate();
@@ -23,7 +24,9 @@ export default function AddDoctorDetails() {
         doctorLicenseBase64: '',
     });
 
-    // eslint-disable-next-line no-unused-vars
+    const [isLoading, setIsLoading] = useState(false); // Add loading state
+    const [error, setError] = useState(null);
+
     const {doctorFirstName, doctorLastName,doctorAddress,doctorLicense,doctorType, doctorSpecialization,doctorImageBase64,doctorLicenseBase64} = doctor;
 
     const handleDoctorImageChange = (e) => {
@@ -72,11 +75,12 @@ export default function AddDoctorDetails() {
         }
     };
 
-
     const onSubmit = async (e) => {
         e.preventDefault();
 
         try {
+            setIsLoading(true); // Set isLoading to true when data submission starts
+
             const formData = new FormData();
             formData.append("uid", doctor.uid);
             formData.append("doctorFirstName", doctor.doctorFirstName);
@@ -88,7 +92,7 @@ export default function AddDoctorDetails() {
             formData.append("doctorImageBase64", doctor.doctorImageBase64);
             formData.append("doctorLicenseBase64", doctor.doctorLicenseBase64);
 
-            const response = await axios.post('http://localhost:8080/doctor/add', formData, {
+            const response = await axios.post(`${springApiUrl}/doctor/add`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
@@ -98,6 +102,9 @@ export default function AddDoctorDetails() {
             navigate("/"); // Redirect or show a success message
         } catch (error) {
             console.error("Error adding doctor details:", error);
+            setError(error.message);
+        } finally {
+            setIsLoading(false); // Set isLoading to false when data submission completes
         }
     };
 
@@ -220,12 +227,13 @@ export default function AddDoctorDetails() {
                         </div>
 
                         <button type="submit" className="btn btn-outline-primary">
-                            Submit
+                            {isLoading ? 'Submitting...' : 'Submit'}
                         </button>
                         <button type="button" className="btn btn-outline-danger mx-2" onClick={() => navigate("/")}>
                             Cancel
                         </button>
                     </form>
+                    {error && <div className="text-danger">{error}</div>}
                 </div>
             </div>
         </div>
