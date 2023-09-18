@@ -2,14 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../firebase';
 import Sidepane from '../components/layout/sidepane';
 import { QrReader } from 'react-qr-reader';
-import { usePatientData } from '../patient/patientUtils'; // Replace with the correct path
+import { usePatientData } from '../patient/patientUtils';
+import {useUserData} from "../users/userUtils"; // Replace with the correct path
 
 export default function DoctorQRScanner() {
     const user = useAuth();
-    const [qrData, setQrData] = useState(null); // Changed the initial state to null
+    const { userType, email, username } = useUserData(user);
+    const [qrData, setQrData] = useState(null);
     const [cameraPermissionGranted, setCameraPermissionGranted] = useState(false);
     const [validPatient, setValidPatient] = useState(false);
-    const [isLoadingData, setIsLoadingData] = useState(false); // Loading state for data fetching
+    const [isLoadingData, setIsLoadingData] = useState(false);
+    const [isLoadingUser, setIsLoadingUser] = useState(true); // Added loading state for user data
 
     const {
         FirstName,
@@ -39,27 +42,35 @@ export default function DoctorQRScanner() {
     };
 
     // Function to handle QR code scan error
-    // eslint-disable-next-line no-unused-vars
     const handleError = (err) => {
         console.error(err);
     };
 
-    // Request camera permission on component mount
-    useEffect(() => {
-        navigator.mediaDevices
-            .getUserMedia({ video: true })
-            .then(() => setCameraPermissionGranted(true))
-            .catch((error) => console.error(error));
-    }, []);
+    // Function to fetch user data
+    const fetchUserData = () => {
+        // Assuming you have an async function to fetch user data, replace 'fetchUserData' with your actual function
+        return fetchUserData(user)
+            .then(() => {
 
-    // Validate if the patient data is available and set validPatient accordingly
+                setIsLoadingUser(false); // User data fetching complete, stop loading
+            })
+            .catch((error) => {
+                setIsLoadingUser(false); // User data fetching failed, stop loading
+                console.error(error);
+            });
+    };
+
+    // Fetch user data before rendering the component
     useEffect(() => {
-        if (FirstName && LastName && Age && Address && DateOfBirth) {
-            setValidPatient(true);
-        } else {
-            setValidPatient(false);
+        if (user) {
+            fetchUserData();
         }
-    }, [FirstName, LastName, Age, Address, DateOfBirth]);
+    }, [user]);
+
+    // Render loading state while user data is being fetched
+    if (isLoadingUser) {
+        return <p>Loading user data...</p>;
+    }
 
     return (
         <div className="d-flex" style={{ maxHeight: '80vh' }}>
@@ -104,14 +115,21 @@ export default function DoctorQRScanner() {
 
                                                 <div>
                                                     <a href='#' className="btn btn-primary">
-                                                        <span>
-                                                            More Info
-                                                        </span>
+                            <span>
+                              More Info
+                            </span>
                                                     </a>
                                                 </div>
                                             </div>
                                         ) : (
-                                            <p>Invalid QR Code. Please scan a valid patient QR code.</p>
+                                            <div style={{ textAlign: 'left' }}>
+                                                <p>Some patient data is missing or invalid:</p>
+                                                {FirstName ? null : <p>First Name is missing</p>}
+                                                {LastName ? null : <p>Last Name is missing</p>}
+                                                {Age ? null : <p>Age is missing</p>}
+                                                {Address ? null : <p>Address is missing</p>}
+                                                {DateOfBirth ? null : <p>Date of Birth is missing</p>}
+                                            </div>
                                         )
                                     )}
                                 </div>

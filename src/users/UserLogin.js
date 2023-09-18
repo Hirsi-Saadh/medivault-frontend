@@ -12,7 +12,8 @@ export default function UserLogin() {
     password: '',
   });
 
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingFirebase, setIsLoadingFirebase] = useState(false); // Loading state for Firebase
+  const [isLoadingMySQL, setIsLoadingMySQL] = useState(false); // Loading state for MySQL
   const [error, setError] = useState(null);
 
   const { email, password } = credentials;
@@ -25,7 +26,7 @@ export default function UserLogin() {
     e.preventDefault();
 
     try {
-      setIsLoading(true);
+      setIsLoadingFirebase(true); // Start Firebase loading
 
       // Sign in with Firebase Authentication
       const response = await firebase.auth().signInWithEmailAndPassword(email, password);
@@ -33,6 +34,10 @@ export default function UserLogin() {
       if (response.user) {
         // Fetch user type from your Spring Boot backend
         const uid = response.user.uid;
+
+        // After Firebase authentication is done, start MySQL loading
+        setIsLoadingMySQL(true);
+
         const userTypeResponse = await axios.get(`${springApiUrl}/users/usertype?uid=${uid}`);
 
         if (userTypeResponse.status === 200) {
@@ -51,6 +56,11 @@ export default function UserLogin() {
               case 'hospital':
                 navigate('/hospital/dashboard');
                 break;
+              case 'doctor':
+                navigate('/doctor/dashboard');
+                break;
+
+
                 // Add more cases for other user types
               default:
                 // Redirect to the homepage if user type is not recognized
@@ -74,9 +84,13 @@ export default function UserLogin() {
       console.error('Error logging in:', error);
       setError('Error logging in. Please try again later.');
     } finally {
-      setIsLoading(false);
+      setIsLoadingFirebase(false); // End Firebase loading
+      setIsLoadingMySQL(false); // End MySQL loading
     }
   };
+
+  // You can check both loading states to display a combined loading indicator
+  const isCombinedLoading = isLoadingFirebase || isLoadingMySQL;
 
   return (
       <div className="mt-5 container">
@@ -111,8 +125,8 @@ export default function UserLogin() {
                     onChange={(e) => onInputChange(e)}
                 />
               </div>
-              <button type="submit" className="btn btn-outline-primary">
-                {isLoading ? 'Logging In...' : 'Login'}
+              <button type="submit" className="btn btn-outline-primary" disabled={isCombinedLoading}>
+                {isCombinedLoading ? 'Logging In...' : 'Login'}
               </button>
             </form>
           </div>
