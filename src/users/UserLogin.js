@@ -38,7 +38,7 @@ export default function UserLogin() {
         // After Firebase authentication is done, start MySQL loading
         setIsLoadingMySQL(true);
 
-        const userTypeResponse = await axios.get(`${springApiUrl}/users/usertype?uid=${uid}`);
+        const userTypeResponse = await axios.get(`${springApiUrl}/users/usertype?uid=${uid}`,{timeout: 10000});
 
         if (userTypeResponse.status === 200) {
           const userType = userTypeResponse.data;

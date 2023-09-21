@@ -61,6 +61,9 @@ function SidePane() {
     //Patient
     //qr
     const qrViewLink = '/patient/view/qr'
+    //allergy
+    const addAllergyLink ='/patient/allergy/new'
+    const viewAllergyLink ='/patient/allergy/view'
 
 
     //Doctor
@@ -120,12 +123,12 @@ function SidePane() {
                 data-bs-parent="#menu"
             >
                 <li className="w-100">
-                    <a className="nav-link px-0 text-light">
+                    <a className="nav-link px-0 text-light" href={viewAllergyLink}>
                         <span className="d-none d-sm-inline">&nbsp;&nbsp;View</span>
                     </a>
                 </li>
                 <li>
-                    <a className="nav-link px-0 text-light">
+                    <a className="nav-link px-0 text-light" href={addAllergyLink}>
                         <span className="d-none d-sm-inline">&nbsp;&nbsp;Add</span>
                     </a>
                 </li>

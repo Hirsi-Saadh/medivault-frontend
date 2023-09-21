@@ -23,6 +23,8 @@ import DoctorProfile from "./doctor/doctorProfile";
 import DoctorList from "./doctor/doctorList";
 import PatientQRGenerator from "./patient/patientQRGenerator";
 import DoctorQRScanner from "./doctor/doctorQRScanner";
+import NewAllergy from "./patient/newAllergy";
+import ViewAllergy from "./patient/viewAllergy";
 
 
 function App() {
@@ -51,6 +53,8 @@ function App() {
             <Route exact path="hospital/doctor/list" element={<DoctorList/>}/>
             <Route exact path="patient/view/qr" element={<PatientQRGenerator/>}/>
             <Route exact path="doctor/scan/qr" element={<DoctorQRScanner/>}/>
+            <Route exact path="patient/allergy/new" element={<NewAllergy/>}/>
+            <Route exact path="patient/allergy/view" element={<ViewAllergy/>}/>
           </Routes>
           </div>
         </Router>
