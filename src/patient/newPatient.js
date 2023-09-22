@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
-// import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-// import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-// import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import springApiUrl from "../springConfig";
+import { AdapterLuxon } from '@mui/x-date-pickers/AdapterLuxon';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import springApiUrl from '../springConfig';
 
 const NewPatient = () => {
     const { search } = useLocation();
@@ -17,17 +17,17 @@ const NewPatient = () => {
         uid: uidFromQuery,
         firstName: '',
         lastName: '',
-        age: '',
+        age: 0, // Initialize age as 0
         address: '',
-        dateOfBirth: ''
-        // Add any other fields you need
+        dateOfBirth: null,
+        height: 0, // Initialize height as 0
+        weight: 0, // Initialize weight as 0
+        bloodGroup: '',
     });
 
-    // eslint-disable-next-line no-unused-vars
-    const { uid, firstName, lastName, age, address, dateOfBirth } = patientInfo;
+    const { firstName, lastName, age, address, dateOfBirth, height, weight, bloodGroup } = patientInfo;
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
+    const handleChange = (name, value) => {
         setPatientInfo({
             ...patientInfo,
             [name]: value,
@@ -54,11 +54,12 @@ const NewPatient = () => {
                 uid: uidFromQuery,
                 firstName: '',
                 lastName: '',
-                age: '',
+                age: 0,
                 address: '',
-                // Clear any other fields you need
-
-
+                dateOfBirth: null,
+                height: 0,
+                weight: 0,
+                bloodGroup: '',
             });
         } catch (error) {
             // Handle errors, e.g., display an error message
@@ -80,7 +81,7 @@ const NewPatient = () => {
                         id="firstName"
                         name="firstName"
                         value={firstName}
-                        onChange={handleChange}
+                        onChange={(e) => handleChange('firstName', e.target.value)}
                         required
                     />
                 </div>
@@ -94,7 +95,7 @@ const NewPatient = () => {
                         id="lastName"
                         name="lastName"
                         value={lastName}
-                        onChange={handleChange}
+                        onChange={(e) => handleChange('lastName', e.target.value)}
                         required
                     />
                 </div>
@@ -108,7 +109,7 @@ const NewPatient = () => {
                         id="age"
                         name="age"
                         value={age}
-                        onChange={handleChange}
+                        onChange={(e) => handleChange('age', e.target.value)}
                         required
                     />
                 </div>
@@ -121,7 +122,7 @@ const NewPatient = () => {
                         id="address"
                         name="address"
                         value={address}
-                        onChange={handleChange}
+                        onChange={(e) => handleChange('address', e.target.value)}
                         required
                     />
                 </div>
@@ -129,19 +130,62 @@ const NewPatient = () => {
                     <label htmlFor="dateOfBirth" className="form-label">
                         Date of Birth
                     </label>
-                    {/*<DatePicker*/}
-                    {/*    className="form-control"*/}
-                    {/*    selected={dateOfBirth}*/}
-                    {/*    onChange={(date) => setPatientInfo({ ...patientInfo, dateOfBirth: date })}*/}
-                    {/*    showYearDropdown*/}
-                    {/*    yearDropdownItemNumber={65}*/}
-
-                    {/*    required*/}
-
-                    {/*/>*/}
+                    <LocalizationProvider dateAdapter={AdapterLuxon}>
+                        <DatePicker
+                            className="form-control"
+                            value={dateOfBirth}
+                            onChange={(date) => handleChange('dateOfBirth', date)}
+                            renderInput={(params) => <input {...params} />}
+                            showYearDropdown
+                            format="yyyy-MM-dd"
+                            yearDropdownItemNumber={65}
+                            required
+                        />
+                    </LocalizationProvider>
                 </div>
-
-                {/* Add additional fields as needed */}
+                <div className="mb-3">
+                    <label htmlFor="height" className="form-label">
+                        Height in (cm)
+                    </label>
+                    <input
+                        type="number"
+                        className="form-control"
+                        id="height"
+                        name="height"
+                        value={height}
+                        onChange={(e) => handleChange('height', parseInt(e.target.value))}
+                        required
+                    />
+                </div>
+                <div className="mb-3">
+                    <label htmlFor="weight" className="form-label">
+                        Weight in (kg)
+                    </label>
+                    <input
+                        type="number"
+                        className="form-control"
+                        id="weight"
+                        name="weight"
+                        value={weight}
+                        onChange={(e) => handleChange('weight', parseInt(e.target.value))}
+                        required
+                    />
+                </div>
+                <div className="mb-3">
+                    <label htmlFor="bloodGroup" className="form-label">
+                        Blood Group (Example: O+ , O-, AB+, AB-)
+                    </label>
+                    <input
+                        type="text"
+                        className="form-control"
+                        id="bloodGroup"
+                        name="bloodGroup"
+                        value={bloodGroup}
+                        onChange={(e) => handleChange('bloodGroup', e.target.value)}
+                        required
+                    />
+                </div>
+                {/* ... */}
                 <button type="submit" className="btn btn-primary">
                     Add Patient
                 </button>

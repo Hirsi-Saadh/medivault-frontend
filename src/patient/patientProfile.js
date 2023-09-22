@@ -5,12 +5,18 @@ import Sidepane from '../components/layout/sidepane';
 
 export default function PatientProfile() {
   const patient = useAuth(); // Use the useAuth hook to get the authenticated user
-  const { userType, email, username, FirstName, LastName, Age, Address, DateOfBirth } = usePatientData(patient);
+  const { userType, email, username, FirstName, LastName, Age, Address, DateOfBirth, Height, Weight, bloodGroup } = usePatientData(patient);
 
   // State variables to track loading state
   const [isLoadingUsername, setIsLoadingUsername] = useState(true);
   const [isLoadingFirstName, setIsLoadingFirstName] = useState(true);
   const [isLoadingLastName, setIsLoadingLastName] = useState(true);
+  const [isLoadingAge, setIsLoadingAge] = useState(true);
+  const [isLoadingAddress, setIsLoadingAddress] = useState(true);
+  const [isLoadingDateOfBirth, setIsLoadingDateOfBirth] = useState(true);
+  const [isLoadingHeight, setIsLoadingHeight] = useState(true);
+  const [isLoadingWeight, setIsLoadingWeight] = useState(true);
+  const [isLoadingBloodGroup, setIsLoadingBloodGroup] = useState(true);
   // Add similar state variables for other pieces of information
 
   useEffect(() => {
@@ -27,6 +33,31 @@ export default function PatientProfile() {
     // Simulate loading delay for LastName (replace with actual database fetch)
     setTimeout(() => {
       setIsLoadingLastName(false);
+    }, 2000);
+
+    // Simulate loading delay for LastName (replace with actual database fetch)
+    setTimeout(() => {
+      setIsLoadingAge(false);
+    }, 2000);
+
+    setTimeout(() => {
+      setIsLoadingAddress(false);
+    }, 2000);
+
+    setTimeout(() => {
+      setIsLoadingDateOfBirth(false);
+    }, 2000);
+
+    setTimeout(() => {
+      setIsLoadingHeight(false);
+    }, 2000);
+
+    setTimeout(() => {
+      setIsLoadingWeight(false);
+    }, 2000);
+
+    setTimeout(() => {
+      setIsLoadingBloodGroup(false);
     }, 2000);
 
     // Add similar setTimeouts for other pieces of information
@@ -95,13 +126,13 @@ export default function PatientProfile() {
                     <li>
                       <div className="pt-3">
                         <span className="text-light pe-3">Age: </span>
-                        <span className="badge bg-info text-dark">{Age}</span>
+                        <span className="badge bg-info text-dark">{isLoadingAge ? 'Loading...' : Age}</span>
                       </div>
                     </li>
                     <li>
                       <div className="pt-3">
                         <span className="text-light">Date of Birth: </span>
-                        <span className="text-light ps-3">{DateOfBirth}</span>
+                        <span className="text-light ps-3">{isLoadingDateOfBirth ? 'Loading...' : DateOfBirth}</span>
                       </div>
                     </li>
                   </ul>
@@ -117,7 +148,7 @@ export default function PatientProfile() {
             </div>
             <div
                 className="container block"
-                style={{ textAlign: 'left', letterSpacing: '1px', fontSize: '18px', borderTop: '2px solid #171717', textTransform: 'capitalize' }}
+                style={{ textAlign: 'left', letterSpacing: '1px', fontSize: '18px', borderTop: '2px solid #171717' }}
             >
               <div className="container d-flex">
                 <div className="ps-5 container">
@@ -125,13 +156,13 @@ export default function PatientProfile() {
                     <li>
                       <div className="pt-3">
                         <span className="text-light">Height: </span>
-                        <span className="text-light ps-3">56cm</span>
+                        <span className="text-light ps-3">{isLoadingHeight ? 'Loading...' : Height}cm</span>
                       </div>
                     </li>
                     <li>
                       <div className="pt-3">
                         <span className="text-light">Weight: </span>
-                        <span className="text-light ps-3">96kg</span>
+                        <span className="text-light ps-3">{isLoadingWeight ? 'Loading...' : Weight}kg</span>
                       </div>
                     </li>
                   </ul>
@@ -142,7 +173,7 @@ export default function PatientProfile() {
                     <li>
                       <div className="pt-3">
                         <span className="text-light pe-3">Blood: </span>
-                        <span className="badge bg-danger text-ligh">O+</span>
+                        <span className="badge bg-danger text-ligh">{isLoadingBloodGroup ? 'Loading...' : bloodGroup}</span>
                       </div>
                     </li>
                   </ul>

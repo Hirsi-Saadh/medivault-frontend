@@ -14,6 +14,9 @@ export function usePatientData(initialPatient = null) {
     const [Age, setAge] = useState('');
     const [Address, setAddress] = useState('');
     const [DateOfBirth, setDateOfBirth] = useState('');
+    const [Height, setHeight] = useState('');
+    const [Weight, setWeight] = useState('');
+    const [bloodGroup, setBloodGroup] = useState('');
 
     useEffect(() => {
         if (initialPatient) {
@@ -37,6 +40,9 @@ export function usePatientData(initialPatient = null) {
                         setAge(patientData.age);
                         setAddress(patientData.address);
                         setDateOfBirth(patientData.dateOfBirth);
+                        setHeight(patientData.height);
+                        setWeight(patientData.weight);
+                        setBloodGroup(patientData.bloodGroup)
                     } else {
                         console.error('User not found in MySQL.');
                     }
@@ -63,6 +69,9 @@ export function usePatientData(initialPatient = null) {
         Age,
         Address,
         DateOfBirth,
+        Weight,
+        Height,
+        bloodGroup,
         setPatientByUid, // Function to manually set the patient
     };
 }
