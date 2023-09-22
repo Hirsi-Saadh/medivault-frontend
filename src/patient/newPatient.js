@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
+// import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+// import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+// import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import springApiUrl from "../springConfig";
 
 const NewPatient = () => {
@@ -128,12 +129,16 @@ const NewPatient = () => {
                     <label htmlFor="dateOfBirth" className="form-label">
                         Date of Birth
                     </label>
-                    <DatePicker
-                        className="form-control"
-                        selected={dateOfBirth}
-                        onChange={(date) => setPatientInfo({ ...patientInfo, dateOfBirth: date })}
-                        required
-                    />
+                    {/*<DatePicker*/}
+                    {/*    className="form-control"*/}
+                    {/*    selected={dateOfBirth}*/}
+                    {/*    onChange={(date) => setPatientInfo({ ...patientInfo, dateOfBirth: date })}*/}
+                    {/*    showYearDropdown*/}
+                    {/*    yearDropdownItemNumber={65}*/}
+
+                    {/*    required*/}
+
+                    {/*/>*/}
                 </div>
 
                 {/* Add additional fields as needed */}
