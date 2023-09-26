@@ -2,13 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../firebase';
 import Sidepane from '../components/layout/sidepane';
 import { QrReader } from 'react-qr-reader';
-import { usePatientData } from '../patient/patientUtils'; // Replace with the correct path
+import { usePatientData } from '../patient/patientUtils';
+import { useNavigate } from 'react-router-dom';
 
 export default function DoctorQRScanner() {
     const user = useAuth();
-    const [qrData, setQrData] = useState(null); // Changed the initial state to null
+    const [qrData, setQrData] = useState(null);
     const [cameraPermissionGranted, setCameraPermissionGranted] = useState(false);
     const [validPatient, setValidPatient] = useState(false);
+    let navigate = useNavigate();
 
     const {
         FirstName,
@@ -52,6 +54,28 @@ export default function DoctorQRScanner() {
         }
     }, [FirstName, LastName, Age, Address, DateOfBirth]);
 
+    function handleMoreInfoClick() {
+        if (validPatient && qrData) {
+            // Construct the URL with the UID obtained from the QR code
+            const url = `/doctor/chanelling/view-patient?patient_uid=${qrData}`;
+
+            // Store patient data in session storage
+            sessionStorage.setItem('patientData', JSON.stringify({
+                FirstName,
+                LastName,
+                Age,
+                Address,
+                DateOfBirth,
+            }));
+
+            // Navigate to the URL
+            navigate(url);
+        } else {
+            // Handle the case when the patient is not valid or there's no QR data
+            console.error('Invalid patient or no QR data.');
+        }
+    }
+
     return (
         <div className="d-flex" style={{ maxHeight: '80vh' }}>
             <Sidepane />
@@ -92,11 +116,9 @@ export default function DoctorQRScanner() {
                                                 </div>
 
                                                 <div>
-                                                    <a href='#' className="btn btn-primary">
-                                                        <span>
-                                                            More Info
-                                                        </span>
-                                                    </a>
+                                                    <button className="btn btn-primary" onClick={handleMoreInfoClick}>
+                                                        More Info
+                                                    </button>
                                                 </div>
                                             </div>
                                         ) : (
@@ -114,4 +136,3 @@ export default function DoctorQRScanner() {
         </div>
     );
 }
-

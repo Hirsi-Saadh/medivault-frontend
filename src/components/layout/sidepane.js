@@ -64,6 +64,8 @@ function SidePane() {
     //allergy
     const addAllergyLink ='/patient/allergy/new'
     const viewAllergyLink ='/patient/allergy/view'
+    //diagnosis
+    const addDiagnosisLink = '/patient/diagnosis/new'
 
 
     //Doctor
@@ -154,7 +156,7 @@ function SidePane() {
                     </a>
                 </li>
                 <li>
-                    <a className="nav-link px-0 text-light">
+                    <a className="nav-link px-0 text-light" href={addDiagnosisLink}>
                         <span className="d-none d-sm-inline">&nbsp;&nbsp;Add</span>
                     </a>
                 </li>

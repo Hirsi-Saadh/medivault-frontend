@@ -25,6 +25,8 @@ import PatientQRGenerator from "./patient/patientQRGenerator";
 import DoctorQRScanner from "./doctor/doctorQRScanner";
 import NewAllergy from "./patient/newAllergy";
 import ViewAllergy from "./patient/viewAllergy";
+import ViewPatientByDoctor from "./doctor/viewPatientByDoctor";
+import NewDiagnosis from "./patient/newDiagnosis";
 
 
 function App() {
@@ -55,6 +57,8 @@ function App() {
             <Route exact path="doctor/scan/qr" element={<DoctorQRScanner/>}/>
             <Route exact path="patient/allergy/new" element={<NewAllergy/>}/>
             <Route exact path="patient/allergy/view" element={<ViewAllergy/>}/>
+            <Route exact path="doctor/chanelling/view-patient" element={<ViewPatientByDoctor/>}/>
+            <Route exact path="patient/diagnosis/new" element={<NewDiagnosis/>}/>
           </Routes>
           </div>
         </Router>
