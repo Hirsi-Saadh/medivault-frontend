@@ -13,6 +13,7 @@ export default function DoctorQRScanner() {
     let navigate = useNavigate();
 
     const {
+        Uid,
         FirstName,
         LastName,
         Age,
@@ -52,7 +53,7 @@ export default function DoctorQRScanner() {
         } else {
             setValidPatient(false);
         }
-    }, [FirstName, LastName, Age, Address, DateOfBirth]);
+    }, [Uid, FirstName, LastName, Age, Address, DateOfBirth]);
 
     function handleMoreInfoClick() {
         if (validPatient && qrData) {
@@ -61,6 +62,7 @@ export default function DoctorQRScanner() {
 
             // Store patient data in session storage
             sessionStorage.setItem('patientData', JSON.stringify({
+                Uid,
                 FirstName,
                 LastName,
                 Age,
@@ -108,6 +110,7 @@ export default function DoctorQRScanner() {
                                             <div style={{ width: '100%' }}>
                                                 <div style={{ textAlign: 'left' }}>
                                                     <h4>Scanned Patient Details:</h4>
+                                                    <p>UID: <strong>{Uid}</strong> </p>
                                                     <p style={{ textTransform: 'capitalize' }}>First Name: <strong>{FirstName}</strong> </p>
                                                     <p style={{ textTransform: 'capitalize' }}>Last Name: <strong>{LastName}</strong></p>
                                                     <p>Age: <strong>{Age}</strong></p>

@@ -8,6 +8,7 @@ export function usePatientData(initialPatient = null) {
     const user = useAuth(); // Replace with your Firebase authentication hook
     const { userType, email, username } = useUserData(user);
 
+    const [Uid, setUid] = useState('');
     const [patient, setPatient] = useState(initialPatient);
     const [FirstName, setFirstName] = useState('');
     const [LastName, setLastName] = useState('');
@@ -35,6 +36,7 @@ export function usePatientData(initialPatient = null) {
 
                     if (patientTypeResponse.status === 200) {
                         const patientData = patientTypeResponse.data;
+                        setUid(patientData.uid);
                         setFirstName(patientData.firstName);
                         setLastName(patientData.lastName);
                         setAge(patientData.age);
@@ -61,6 +63,7 @@ export function usePatientData(initialPatient = null) {
     };
 
     return {
+        Uid,
         userType,
         username,
         email,
