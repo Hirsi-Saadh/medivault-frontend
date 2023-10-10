@@ -27,6 +27,11 @@ import NewAllergy from "./patient/newAllergy";
 import ViewAllergy from "./patient/viewAllergy";
 import ViewPatientByDoctor from "./doctor/viewPatientByDoctor";
 import NewDiagnosis from "./patient/newDiagnosis";
+import ViewDiagnosis from "./patient/viewDiagnosis";
+import ViewPrescriptions from "./patient/viewPrescriptionHistory";
+import ViewPrescriptionsHistory from "./patient/viewPrescriptionHistory";
+import ViewPrescription from "./patient/viewPrescriptions";
+import PrescribedMedication from "./patient/prescribedMedication";
 
 
 function App() {
@@ -59,6 +64,10 @@ function App() {
             <Route exact path="patient/allergy/view" element={<ViewAllergy/>}/>
             <Route exact path="doctor/chanelling/view-patient" element={<ViewPatientByDoctor/>}/>
             <Route exact path="patient/diagnosis/new" element={<NewDiagnosis/>}/>
+            <Route exact path="patient/diagnosis/view" element={<ViewDiagnosis/>}/>
+            <Route exact path="patient/prescriptions/view-history" element={<ViewPrescriptionsHistory/>}/>
+            <Route exact path="patient/prescriptions/view" element={<ViewPrescription/>}/>
+            <Route exact path="patient/prescriptions/medication/view" element={<PrescribedMedication/>}/>
           </Routes>
           </div>
         </Router>

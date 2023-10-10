@@ -8,6 +8,7 @@ import AddPrescription from "./addPrescription";
 import PrescribeMedicalReport from "./addMedicalReportPrescription"; // Import the useAllergyData hook
 import NewDiagnosis from "../patient/newDiagnosis";
 import DoctorNewDiagnosis from "./DoctorNewDiagnosis";
+import ViewPatientChannelingHistory from "./viewPatientChannelingHistory";
 
 export default function ViewPatientByDoctor() {
     const user = useAuth(); // Use the useAuth hook to get the authenticated user
@@ -132,7 +133,7 @@ export default function ViewPatientByDoctor() {
 
                                             </div>
 
-                                            <PrescribeMedicalReport/>
+                                            <ViewPatientChannelingHistory/>
 
                                             <div>
                                                     {/* Display list of diagnosis */}

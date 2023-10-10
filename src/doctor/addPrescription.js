@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useAuth } from '../firebase'; // Import the useAuth hook from your firebase.js file
 import { useNavigate } from 'react-router-dom';
 import springApiUrl from '../springConfig';
+import PrescribeMedicalReport from "./addMedicalReportPrescription";
 
 export default function AddPrescription() {
     const navigate = useNavigate();
@@ -196,6 +197,8 @@ export default function AddPrescription() {
                     </div>
                 </form>
             </div>
+
+            <PrescribeMedicalReport/>
         </div>
     );
 }

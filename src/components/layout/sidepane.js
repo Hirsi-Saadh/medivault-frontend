@@ -66,6 +66,10 @@ function SidePane() {
     const viewAllergyLink ='/patient/allergy/view'
     //diagnosis
     const addDiagnosisLink = '/patient/diagnosis/new'
+    const viewDiagnosisLink = '/patient/diagnosis/view'
+    //prescription
+    const viewPrescription = '/patient/prescriptions/view'
+    const viewPrescriptionHistory = '/patient/prescriptions/view-history'
 
 
     //Doctor
@@ -100,13 +104,13 @@ function SidePane() {
                 data-bs-parent="#menu"
             >
                 <li className="w-100">
-                    <a className="nav-link px-0 text-light">
+                    <a className="nav-link px-0 text-light" href={viewPrescription}>
                         <span className="d-none d-sm-inline">&nbsp;&nbsp;View</span>
                     </a>
                 </li>
-                <li>
-                    <a className="nav-link px-0 text-light">
-                        <span className="d-none d-sm-inline">&nbsp;&nbsp;Add</span>
+                <li className="w-100">
+                    <a className="nav-link px-0 text-light" href={viewPrescriptionHistory}>
+                        <span className="d-none d-sm-inline">&nbsp;&nbsp;History</span>
                     </a>
                 </li>
             </ul>
@@ -151,7 +155,7 @@ function SidePane() {
                 data-bs-parent="#menu"
             >
                 <li className="w-100">
-                    <a className="nav-link px-0 text-light">
+                    <a className="nav-link px-0 text-light" href={viewDiagnosisLink}>
                         <span className="d-none d-sm-inline">&nbsp;&nbsp;View</span>
                     </a>
                 </li>
