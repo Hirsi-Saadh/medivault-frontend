@@ -1,10 +1,39 @@
 import axios from "axios";
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { useLocation, useNavigate } from "react-router-dom";
 import springApiUrl from "../springConfig";
 
 export default function AddDoctorDetails() {
-    let navigate = useNavigate();
+    const navigate = useNavigate();
+    const [successMessage, setSuccessMessage] = useState('');
+    const [countdown, setCountdown] = useState(7); // Initialize countdown to 7 seconds
+
+    const resetSuccessMessage = () => {
+        setSuccessMessage('');
+        setCountdown(7);
+    };
+
+    const updateCountdown = () => {
+        if (countdown > 0) {
+            setCountdown(countdown - 1);
+        }
+    };
+
+    useEffect(() => {
+        if (successMessage) {
+            const timer = setTimeout(() => {
+                resetSuccessMessage();
+                navigate('/');
+            }, 7000); // 7 seconds
+
+            const countdownTimer = setInterval(updateCountdown, 1000); // Update countdown every second
+
+            return () => {
+                clearTimeout(timer);
+                clearInterval(countdownTimer);
+            };
+        }
+    }, [successMessage, navigate]);
 
     const { search } = useLocation();
     const params = new URLSearchParams(search);
@@ -99,7 +128,8 @@ export default function AddDoctorDetails() {
             });
 
             console.log("Doctor details added:", response.data);
-            navigate("/"); // Redirect or show a success message
+            setSuccessMessage('Doctor information added successfully.');
+            // navigate("/"); // Redirect or show a success message
         } catch (error) {
             console.error("Error adding doctor details:", error);
             setError(error.message);
@@ -113,34 +143,44 @@ export default function AddDoctorDetails() {
             <div className="row">
                 <div className="col-md-6 offset-md-3 border rounded p-4 mt-2 shadow text-light">
                     <h2 className="text-center m-4">Add Doctor Details</h2>
-                    <form onSubmit={(e) => onSubmit(e)}>
-                        <div className="mb-3">
-                            <label htmlFor="doctorFirstName" className="form-label">
-                                First Name
-                            </label>
-                            <input
-                                type="text"
-                                className="form-control"
-                                placeholder="Enter first name"
-                                name="doctorFirstName"
-                                id="doctorFirstName"
-                                value={doctorFirstName}
-                                onChange={(e) => onInputChange(e)}
-                            />
+                    {successMessage && (
+                        <div className="alert alert-success">
+                            {successMessage}
+                            <p>Redirecting in {countdown} seconds</p>
                         </div>
-                        <div className="mb-3">
-                            <label htmlFor="doctorLastName" className="form-label">
-                                Last Name
-                            </label>
-                            <input
-                                type="text"
-                                className="form-control"
-                                placeholder="Enter last name"
-                                name="doctorLastName"
-                                id="doctorLastName"
-                                value={doctorLastName}
-                                onChange={(e) => onInputChange(e)}
-                            />
+                    )}
+                    <form onSubmit={(e) => onSubmit(e)}>
+                        <div className='d-flex' style={{justifyContent:'space-between'}}>
+                            <div className="mb-3">
+                                <label htmlFor="doctorFirstName" className="form-label">
+                                    First Name
+                                </label>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    placeholder="Enter first name"
+                                    name="doctorFirstName"
+                                    id="doctorFirstName"
+                                    value={doctorFirstName}
+                                    onChange={(e) => onInputChange(e)}
+                                    required
+                                />
+                            </div>
+                            <div className="mb-3">
+                                <label htmlFor="doctorLastName" className="form-label">
+                                    Last Name
+                                </label>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    placeholder="Enter last name"
+                                    name="doctorLastName"
+                                    id="doctorLastName"
+                                    value={doctorLastName}
+                                    onChange={(e) => onInputChange(e)}
+                                    required
+                                />
+                            </div>
                         </div>
                         <div className="mb-3">
                             <label htmlFor="doctorLicense" className="form-label">
@@ -154,6 +194,7 @@ export default function AddDoctorDetails() {
                                 id="doctorLicense"
                                 value={doctorLicense}
                                 onChange={(e) => onInputChange(e)}
+                                required
                             />
                         </div>
                         <div className="mb-3">
@@ -168,62 +209,71 @@ export default function AddDoctorDetails() {
                                 id="doctorAddress"
                                 value={doctorAddress}
                                 onChange={(e) => onInputChange(e)}
-                            />
-                        </div>
-                        <div className="mb-3">
-                            <label htmlFor="doctorType" className="form-label">
-                                Doctor Type
-                            </label>
-                            <select
-                                className="form-select"
-                                name="doctorType"
-                                id="doctorType"
-                                value={doctorType}
-                                onChange={(e) => onInputChange(e)}
-                            >
-                                <option value="">Select doctor type</option>
-                                <option value="GENERAL">General</option>
-                                <option value="SPECIALIST">Specialist</option>
-                            </select>
-                        </div>
-                        <div className="mb-3">
-                            <label htmlFor="doctorSpecialization" className="form-label">
-                                Specialization
-                            </label>
-                            <input
-                                type="text"
-                                className="form-control"
-                                placeholder="Enter Doctor Specialization"
-                                name="doctorSpecialization"
-                                id="doctorSpecialization"
-                                value={doctorSpecialization}
-                                onChange={(e) => onInputChange(e)}
-                            />
-                        </div>
-                        <div className="mb-3">
-                            <label htmlFor="doctorImageBlob" className="form-label">
-                                Add Doctor's Image
-                            </label>
-                            <input
-                                type="file"
-                                className="form-control"
-                                id="doctorImageBlob"
-                                name="doctorImageBlob"
-                                onChange={(e) => onInputChange(e)}
+                                required
                             />
                         </div>
 
-                        <div className="mb-3">
-                            <label htmlFor="doctorLicenseBlob" className="form-label">
-                                Add Doctor's License
-                            </label>
-                            <input
-                                type="file"
-                                className="form-control"
-                                id="doctorLicenseBlob"
-                                name="doctorLicenseBlob"
-                                onChange={(e) => onInputChange(e)}
-                            />
+                        <div className='d-flex' style={{justifyContent:'space-between'}}>
+                            <div className="mb-3">
+                                <label htmlFor="doctorType" className="form-label">
+                                    Doctor Type
+                                </label>
+                                <select
+                                    className="form-select"
+                                    name="doctorType"
+                                    id="doctorType"
+                                    value={doctorType}
+                                    onChange={(e) => onInputChange(e)}
+                                >
+                                    <option value="">Select doctor type</option>
+                                    <option value="GENERAL">General</option>
+                                    <option value="SPECIALIST">Specialist</option>
+                                </select>
+                            </div>
+                            <div className="mb-3">
+                                <label htmlFor="doctorSpecialization" className="form-label">
+                                    Specialization
+                                </label>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    placeholder="Enter Doctor Specialization"
+                                    name="doctorSpecialization"
+                                    id="doctorSpecialization"
+                                    value={doctorSpecialization}
+                                    onChange={(e) => onInputChange(e)}
+                                    required
+                                />
+                            </div>
+                        </div>
+                        <div className='d-flex' style={{justifyContent:'space-between'}}>
+                            <div className="mb-3 pe-2">
+                                <label htmlFor="doctorImageBlob" className="form-label">
+                                    Add Doctor's Image
+                                </label>
+                                <input
+                                    type="file"
+                                    className="form-control"
+                                    id="doctorImageBlob"
+                                    name="doctorImageBlob"
+                                    onChange={(e) => onInputChange(e)}
+                                    required
+                                />
+                            </div>
+
+                            <div className="mb-3">
+                                <label htmlFor="doctorLicenseBlob" className="form-label">
+                                    Add Doctor's License
+                                </label>
+                                <input
+                                    type="file"
+                                    className="form-control"
+                                    id="doctorLicenseBlob"
+                                    name="doctorLicenseBlob"
+                                    onChange={(e) => onInputChange(e)}
+                                    required
+                                />
+                            </div>
                         </div>
 
                         <button type="submit" className="btn btn-outline-primary">

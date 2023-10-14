@@ -9,6 +9,7 @@ import PrescribeMedicalReport from "./addMedicalReportPrescription"; // Import t
 import NewDiagnosis from "../patient/newDiagnosis";
 import DoctorNewDiagnosis from "./DoctorNewDiagnosis";
 import ViewPatientChannelingHistory from "./viewPatientChannelingHistory";
+import {formatDate} from "../assets/utils/timeUtils";
 
 export default function ViewPatientByDoctor() {
     const user = useAuth(); // Use the useAuth hook to get the authenticated user
@@ -89,34 +90,38 @@ export default function ViewPatientByDoctor() {
                                     {patientData ? (
                                         <>
                                             <div className='container p-4'>
-                                                <div className='container d-flex'>
-                                                    <div className='container p-3' style={{textAlign:'left', width:'350px', borderRadius:'25px 25px 25px 25px', backgroundColor:'#171717'}}>
-                                                        <p >First Name: {patientData.FirstName}</p>
-                                                        <p >Last Name: {patientData.LastName}</p>
-                                                        <p >Age: {patientData.Age}</p>
-                                                        <p >Address: {patientData.Address}</p>
-                                                        <p >Date of Birth: {patientData.DateOfBirth}</p>
-                                                    </div>
-                                                        <AddPrescription/>
-                                                    <div>
+                                                <div className='d-flex' >
+                                                    <div className='p-3 me-3' style={{textAlign:'left', width:'auto', height:'auto', borderRadius:'25px 25px 25px 25px', backgroundColor:'#171717'}}>
+                                                        <div className='d-flex' style={{justifyContent:'space-between'}}>
+                                                            <p ><strong>First Name:</strong> {patientData.FirstName}</p>
+                                                            <p className='ms-2'><strong>Last Name:</strong> {patientData.LastName}</p>
+                                                        </div>
+                                                        <div className='d-flex' style={{justifyContent:'space-between'}}>
+                                                            <p ><strong>Age: </strong>{patientData.Age}</p>
+                                                            <p className='ms-2'><strong>Date of Birth:</strong> {patientData.DateOfBirth}</p>
+                                                        </div>
+                                                        <p ><strong>Address: </strong>{patientData.Address}</p>
 
                                                     </div>
+
+
+                                                        <AddPrescription/>
+
                                                 </div>
 
-                                        <div className='container d-flex mt-3 p-3' >
+                                        <div className='d-flex mt-3' >
 
                                             <div>
                                             {/* Display list of allergies */}
                                             {allergies && allergies.length > 0 && (
-                                                <div className='p-4' style={{textAlign:'left', width:'350px', borderRadius:'25px 25px 25px 25px', backgroundColor:'#171717'}}>
+                                                <div className='p-4' style={{textAlign:'left', width:'310px',  borderRadius:'25px 25px 25px 25px', backgroundColor:'#171717', }}>
                                                     <h4>Allergies</h4>
-                                                    <div  style={{ overflowX: 'hidden', overflowY: 'auto', height: '250px', scrollbarWidth: 'thin', scrollbarColor: 'darkgray lightgray' }}>
+                                                    <div  style={{ overflowX: 'hidden', overflowY: 'auto', height: '180px', scrollbarWidth: 'thin', scrollbarColor: 'darkgray lightgray' }}>
                                                         <ul style={{ listStyleType: 'none', padding: 0 }}>
                                                             {allergies.map((allergy, index) => (
                                                                 <li key={index} style={{ marginBottom: '10px', padding: '10px', border: '1px solid lightgray' , borderRadius:'25px 25px 25px 25px' }}>
                                                                     <p>Allergy Name: {allergy.allergyName}</p>
                                                                     <p>Description: {allergy.allergyDescription}</p>
-                                                                    <p>Created At: {allergy.createdAt}</p>
                                                                 </li>
                                                             ))}
                                                         </ul>
@@ -138,16 +143,19 @@ export default function ViewPatientByDoctor() {
                                             <div>
                                                     {/* Display list of diagnosis */}
                                                     {diagnosis && diagnosis.length > 0 && (
-                                                        <div className='p-4 ms-2' style={{textAlign:'left', width:'350px', borderRadius:'25px 25px 25px 25px', backgroundColor:'#171717'}}>
-                                                            <h4>Diagnosis</h4>
-                                                            <button onClick={openModal}>Add Diagnosis</button>
-                                                            <div style={{ overflowX: 'hidden', overflowY: 'auto', height: '250px', scrollbarWidth: 'thin', scrollbarColor: 'darkgray lightgray' }}>
-                                                                <ul>
+                                                        <div className='p-4 ms-2' style={{textAlign:'left', width:'auto', borderRadius:'25px 25px 25px 25px', backgroundColor:'#171717'}}>
+                                                            <div className='d-flex' style={{justifyContent:'space-between'}}>
+                                                                <h4>Diagnosis</h4>
+                                                                <button className='btn btn-success' onClick={openModal}>Add Diagnosis</button>
+                                                            </div>
+
+                                                            <div style={{ overflowX: 'hidden', overflowY: 'auto', height: '180px', scrollbarWidth: 'thin', scrollbarColor: 'darkgray lightgray' }}>
+                                                                <ul style={{ listStyleType: 'none', padding: 0 }}>
                                                                     {diagnosis.map((diagnosis, index) => (
-                                                                        <li key={index}>
+                                                                        <li key={index} style={{ marginBottom: '10px',marginTop:'10px', padding: '10px', border: '1px solid lightgray' , borderRadius:'25px 25px 25px 25px' }}>
                                                                             <p>Diagnosis Name: {diagnosis.diagnosisName}</p>
                                                                             <p>Description: {diagnosis.diagnosisDescription}</p>
-                                                                            <p>Created At: {diagnosis.createdAt}</p>
+
                                                                             {/* Render other allergy properties as needed */}
                                                                         </li>
                                                                     ))}

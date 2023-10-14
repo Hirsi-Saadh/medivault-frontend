@@ -77,6 +77,10 @@ function SidePane() {
     const qrScanLink = '/doctor/scan/qr'
 
 
+    //Pharmacy
+    //qr
+    const PharmacyQrScanLink = '/pharmacy/scan/qr'
+
     if (isLoading) {
         // Display a loading indicator or message
         return <div>Loading...</div>;
@@ -220,6 +224,19 @@ function SidePane() {
 
     ) : null;
 
+    // doctor
+    const pharmacyMenu = userType.toLowerCase() === 'pharmacy' ? (
+
+        <>
+            <li>
+                <a className="nav-link px-0 align-middle text-light" href={PharmacyQrScanLink}>
+                    <FontAwesomeIcon icon={faQrcode}/> <span className="ms-2 d-none d-sm-inline">Scan QR</span>
+                </a>
+            </li>
+        </>
+
+    ) : null;
+
     return (
         <div className="col-auto col-md-3 col-xl-2 px-sm-2 px-0" style={{ borderRight: '2px solid #171717'}}>
             <div className="d-flex flex-column">
@@ -236,6 +253,7 @@ function SidePane() {
                     {patientMenu}
                     {hospitalMenu}
                     {doctorMenu}
+                    {pharmacyMenu}
 
                     <li>
                         <a

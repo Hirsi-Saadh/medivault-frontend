@@ -58,7 +58,7 @@ export default function NewUser() {
                     navigate(`/hospital/register?uid=${firebaseUser.uid}`);
                     break;
                 case 'pharmacy':
-                    navigate('/pharmacy');
+                    navigate(`/pharmacy/register?uid=${firebaseUser.uid}`);
                     break;
                 case 'laboratory':
                     navigate('/laboratory');

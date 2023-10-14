@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../firebase'; // Import the useAuth hook from your firebase.js file
 import Sidepane from '../components/layout/sidepane';
-import { useHospitalData } from './hospitalUtils';
-import profilepic from '../assets/images/hospital.png';
-import doc from '../assets/images/doc.png';
+import { usePharmacyData } from './pharmacyUtils';
 
-export default function HospitalProfile() {
-  const hospital = useAuth(); // Use the useAuth hook to get the authenticated user
-  const { userType, username, email, HospitalName, HospitalAddress, HospitalLicense, HospitalType, MedicalLicenseBlob } = useHospitalData(hospital);
+export default function PharmacyProfile() {
+  const pharmacy = useAuth(); // Use the useAuth hook to get the authenticated user
+  const { userType, username, email, PharmacyName, PharmacyAddress, PharmacyLicense, PharmacyType, PharmacyLicenseBlob } = usePharmacyData(pharmacy);
 
   const [isLoading, setIsLoading] = useState(true); // Add loading state
   const [error, setError] = useState(null);
@@ -22,15 +20,15 @@ export default function HospitalProfile() {
     console.log('user type:', userType);
     console.log('username:', username);
     console.log('email:', email)
-    console.log('Name:', HospitalName);
-    console.log('Type:', HospitalType);
-    console.log('License:', HospitalLicense);
-    console.log('Address:', HospitalAddress);
-    console.log('Image:', MedicalLicenseBlob);
-  }, [userType, email, username, HospitalName, HospitalAddress, HospitalLicense, HospitalType, MedicalLicenseBlob]);
+    console.log('Name:', PharmacyName);
+    console.log('Type:', PharmacyType);
+    console.log('License:', PharmacyLicense);
+    console.log('Address:', PharmacyAddress);
+    console.log('Image:', PharmacyLicenseBlob);
+  }, [userType, email, username, PharmacyName, PharmacyAddress, PharmacyLicense, PharmacyType, PharmacyLicenseBlob]);
 
   // image base64 to png
-  const license_img_url = `data:image/jpeg;base64,${MedicalLicenseBlob}`;
+  const license_img_url = `data:image/jpeg;base64,${PharmacyLicenseBlob}`;
 
   return (
       <div className="d-flex" style={{ maxHeight: '80vh' }}>
@@ -44,11 +42,9 @@ export default function HospitalProfile() {
                   <li>
                     <div>
                       <img
-                          // src="http://www.gravatar.com/avatar/9ce79c699d1e5a2b5db63527abdb2a2f"
-                          src={profilepic}
-                          alt={HospitalName}
+                          src="http://www.gravatar.com/avatar/9ce79c699d1e5a2b5db63527abdb2a2f"
+                          alt={PharmacyName}
                           className="img-fluid rounded-circle"
-                          width="100px"
                       />
                     </div>
                   </li>
@@ -81,19 +77,19 @@ export default function HospitalProfile() {
                         <li>
                           <div className="pt-3" >
                             <span className="text-light">Name: </span>
-                            <span className="text-light ps-3">{HospitalName}</span>
+                            <span className="text-light ps-3">{PharmacyName}</span>
                           </div>
                         </li>
                         <li>
                           <div className="pt-3">
                             <span className="text-light">License No : </span>
-                            <span className="text-light ps-3">{HospitalLicense}</span>
+                            <span className="text-light ps-3">{PharmacyLicense}</span>
                           </div>
                         </li>
                         <li>
                           <div className="pt-3" >
                             <span className="text-light">Address: </span>
-                            <span className="text-light ps-3">{HospitalAddress}</span>
+                            <span className="text-light ps-3">{PharmacyAddress}</span>
                           </div>
                         </li>
                       </ul>
@@ -104,13 +100,13 @@ export default function HospitalProfile() {
                         <li>
                           <div className="pt-3" >
                             <span className="text-light pe-3">Type: </span>
-                            <span className="badge bg-info text-dark">{HospitalType}</span>
+                            <span className="badge bg-info text-dark">{PharmacyType}</span>
                           </div>
                         </li>
                         <li>
                           <div className="pt-3">
                             <span className="text-light">License: </span>
-                            <img src={license_img_url} alt="medical license" width='140px' />
+                            <img src={license_img_url} alt="pharmacy license" width='140px' />
                           </div>
                         </li>
                       </ul>

@@ -130,7 +130,7 @@ export default function DoctorList() {
                                                     <small>{doctor.doctorSpecialization}</small>
                                                 </div>
                                                 <p className="mb-1">{doctor.doctorType}</p>
-                                                <small>{doctor.doctorLicense}</small>
+                                                <small>Medical License: {doctor.doctorLicense}</small>
                                             </a>
                                         </div>
                                     ))}

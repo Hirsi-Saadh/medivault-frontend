@@ -110,7 +110,6 @@ export default function DoctorQRScanner() {
                                             <div style={{ width: '100%' }}>
                                                 <div style={{ textAlign: 'left' }}>
                                                     <h4>Scanned Patient Details:</h4>
-                                                    <p>UID: <strong>{Uid}</strong> </p>
                                                     <p style={{ textTransform: 'capitalize' }}>First Name: <strong>{FirstName}</strong> </p>
                                                     <p style={{ textTransform: 'capitalize' }}>Last Name: <strong>{LastName}</strong></p>
                                                     <p>Age: <strong>{Age}</strong></p>

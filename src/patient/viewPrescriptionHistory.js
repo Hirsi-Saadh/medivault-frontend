@@ -45,7 +45,7 @@ const ViewPrescriptionsHistory = () => {
                         <p>Loading...</p>
                     ) : user ? (
                         <div>
-                            <h2>Your Prescriptions History</h2>
+                            <h2>Your Medication History</h2>
                             {prescriptions.length > 0 ? (
                                 <ul className="list-group">
                                     {prescriptions.map((prescription, index) => (

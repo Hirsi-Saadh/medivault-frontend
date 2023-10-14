@@ -3,11 +3,21 @@ import springApiUrl from '../springConfig';
 import { useAuth } from '../firebase';
 import Sidepane from "../components/layout/sidepane";
 import { formatDate } from '../assets/utils/timeUtils';
+import QRCode from "react-qr-code";
 
 const ViewPrescription = () => {
     const [prescriptions, setPrescriptions] = useState([]); // State to hold the list of prescriptions
     const [loadingUser, setLoadingUser] = useState(true); // Loading state for Firebase user
     const user = useAuth();
+
+    const [showModal, setShowModal] = useState(false);
+    const [channelingIdForQR, setChannelingIdForQR] = useState(null);
+
+    // Function to handle "View QR" link click
+    const handleLinkClick = (channelingId) => {
+        setChannelingIdForQR(channelingId); // Set the channeling ID for QR code generation
+        setShowModal(true); // Show the modal
+    };
 
     useEffect(() => {
         // Check if the Firebase user is available
@@ -37,6 +47,37 @@ const ViewPrescription = () => {
         }
     };
 
+    const modalStyle = {
+        display: 'flex',
+        justifyContent: 'center',  // Center horizontally
+        alignItems: 'center',
+        position: 'fixed',
+        zIndex: 1,
+        left: 0,
+        top: 0,
+        width: '100%',
+        height: '100%',
+        backgroundColor: 'rgba(0, 0, 0, 0.4)',
+        margin: 'auto',
+    };
+
+    const modalContentStyle = {
+        backgroundColor: 'rgba(0, 0, 0, 0.9)',
+        margin: 'auto',
+        padding: '20px',
+        border: '1px solid #888',
+        width: '80%',
+        maxWidth: '500px',
+        borderRadius: '10px',
+        boxShadow: '0px 4px 8px 0px rgba(0,0,0,0.2)',
+    };
+
+    const closeButtonStyle = {
+        float: 'right',
+        cursor: 'pointer',
+        fontSize: '20px',
+    };
+
     return (
         <div className="d-flex" style={{ maxHeight: '80vh' }}>
             <Sidepane />
@@ -46,9 +87,9 @@ const ViewPrescription = () => {
                         <p>Loading...</p>
                     ) : user ? (
                         <div>
-                            <h2>Your Prescriptions</h2>
+                            <h2>Your Channeling History</h2>
                             {prescriptions.length > 0 ? (
-                                <ul className="list-group">
+                                <ul className="list-group mt-2">
                                     {prescriptions.map((prescription, index) => (
                                         <li
                                             key={index}
@@ -70,12 +111,38 @@ const ViewPrescription = () => {
                                                 <strong>Doctor Name:</strong> {prescription.doctorFirstName} {prescription.doctorLastName}<br />
                                                 {formatDate(prescription.addedTime)}
                                             </div>
+                                            <div>
+                                            <a href="#" onClick={() => handleLinkClick(prescription.id)}>
+                                                <span className="badge bg-warning rounded-pill me-2">View QR</span>
+                                            </a>
                                             <a href={`/patient/prescriptions/medication/view?id=${prescription.id}`}><span className="badge bg-primary rounded-pill">Details</span></a>
+                                            </div>
                                         </li>
+
                                     ))}
+                                    {/* Modal for QR code */}
+                                    {showModal && (
+                                        <div className="modal" style={modalStyle}>
+                                            <div className="modal-content" style={modalContentStyle}>
+                                                <span className="close" style={closeButtonStyle} onClick={() => setShowModal(false)}>&times;</span>
+                                                <div className='container p-4' style={{backgroundColor:'white'}}>
+                                                {channelingIdForQR && (
+                                                    <QRCode value={`${channelingIdForQR}`}
+                                                            viewBox={`0 0 256 256`}
+                                                            style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+                                                            size={256}/>
+                                                )}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )}
                                 </ul>
+
+
                             ) : (
-                                <p>No allergies found.</p>
+                                <div className='m-2 p-2'>
+                                <p>No channeling sessions found...</p>
+                                </div>
                             )}
                         </div>
                     ) : (
@@ -83,7 +150,10 @@ const ViewPrescription = () => {
                     )}
                 </div>
             </div>
+
         </div>
+
+
     );
 };
 

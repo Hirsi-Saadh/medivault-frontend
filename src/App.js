@@ -11,7 +11,7 @@ import Home from './pages/Home';
 import PatientProfile from './patient/patientProfile';
 import NewHospital from './hospital/newHospital';
 import NewLaboratory from './laboratory/newLaboratory';
-import NewPharmacy from './pharmacy/pharmacy';
+import NewPharmacy from './pharmacy/newPharmacy';
 import NewDoctor from "./doctor/newDoctor";
 import NewPatient from "./patient/newPatient";
 import PatientDashboard from "./patient/patientDashboard";
@@ -32,6 +32,9 @@ import ViewPrescriptions from "./patient/viewPrescriptionHistory";
 import ViewPrescriptionsHistory from "./patient/viewPrescriptionHistory";
 import ViewPrescription from "./patient/viewPrescriptions";
 import PrescribedMedication from "./patient/prescribedMedication";
+import PharmacyDashboard from "./pharmacy/pharmacyDashboard";
+import PharmacyProfile from "./pharmacy/pharmacyProfile";
+import PharmacyQRScanner from "./pharmacy/pharmacyQRScanner";
 
 
 function App() {
@@ -68,6 +71,9 @@ function App() {
             <Route exact path="patient/prescriptions/view-history" element={<ViewPrescriptionsHistory/>}/>
             <Route exact path="patient/prescriptions/view" element={<ViewPrescription/>}/>
             <Route exact path="patient/prescriptions/medication/view" element={<PrescribedMedication/>}/>
+            <Route exact path="pharmacy/dashboard" element={<PharmacyDashboard/>}/>
+            <Route exact path="pharmacy/profile" element={<PharmacyProfile/>}/>
+            <Route exact path="pharmacy/scan/qr" element={<PharmacyQRScanner/>}/>
           </Routes>
           </div>
         </Router>

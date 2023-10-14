@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { AdapterLuxon } from '@mui/x-date-pickers/AdapterLuxon';
@@ -12,6 +12,35 @@ const NewPatient = () => {
     const uidFromQuery = params.get('uid');
 
     const navigate = useNavigate();
+    const [successMessage, setSuccessMessage] = useState('');
+    const [countdown, setCountdown] = useState(7); // Initialize countdown to 7 seconds
+
+    const resetSuccessMessage = () => {
+        setSuccessMessage('');
+        setCountdown(7);
+    };
+
+    const updateCountdown = () => {
+        if (countdown > 0) {
+            setCountdown(countdown - 1);
+        }
+    };
+
+    useEffect(() => {
+        if (successMessage) {
+            const timer = setTimeout(() => {
+                resetSuccessMessage();
+                navigate('/');
+            }, 7000); // 7 seconds
+
+            const countdownTimer = setInterval(updateCountdown, 1000); // Update countdown every second
+
+            return () => {
+                clearTimeout(timer);
+                clearInterval(countdownTimer);
+            };
+        }
+    }, [successMessage, navigate]);
 
     const [patientInfo, setPatientInfo] = useState({
         uid: uidFromQuery,
@@ -34,6 +63,11 @@ const NewPatient = () => {
         });
     };
 
+
+
+
+
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -47,7 +81,8 @@ const NewPatient = () => {
 
             // Handle the response as needed (e.g., show a success message)
             console.log('Patient information added:', response.data);
-            navigate('/');
+            setSuccessMessage('Patient information added successfully.');
+            // navigate('/');
 
             // Clear the form fields
             setPatientInfo({
@@ -70,49 +105,85 @@ const NewPatient = () => {
     return (
         <div className="col-md-5 offset-md-3 mt-3 container text-light">
             <h2>Add New Patient Information</h2>
+            {successMessage && (
+                <div className="alert alert-success">
+                    {successMessage}
+                    <p>Redirecting in {countdown} seconds</p>
+                </div>
+            )}
             <form onSubmit={handleSubmit}>
-                <div className="mb-3">
-                    <label htmlFor="firstName" className="form-label">
-                        First Name
-                    </label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        id="firstName"
-                        name="firstName"
-                        value={firstName}
-                        onChange={(e) => handleChange('firstName', e.target.value)}
-                        required
-                    />
+                <div className='d-flex mt-3' style={{justifyContent:'space-between'}}>
+                    <div className="mb-3">
+                        <label htmlFor="firstName" className="form-label">
+                            First Name
+                        </label>
+                        <input
+                            type="text"
+                            className="form-control"
+                            id="firstName"
+                            name="firstName"
+                            value={firstName}
+                            onChange={(e) => handleChange('firstName', e.target.value)}
+                            required
+                        />
+                        <div className="invalid-feedback">
+                            Please provide a valid first name.
+                        </div>
+                    </div>
+                    <div className="mb-3">
+                        <label htmlFor="lastName" className="form-label">
+                            Last Name
+                        </label>
+                        <input
+                            type="text"
+                            className="form-control"
+                            id="lastName"
+                            name="lastName"
+                            value={lastName}
+                            onChange={(e) => handleChange('lastName', e.target.value)}
+                            required
+                        />
+                        <div className="invalid-feedback">
+                            Please provide a valid last name.
+                        </div>
+                    </div>
                 </div>
-                <div className="mb-3">
-                    <label htmlFor="lastName" className="form-label">
-                        Last Name
-                    </label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        id="lastName"
-                        name="lastName"
-                        value={lastName}
-                        onChange={(e) => handleChange('lastName', e.target.value)}
-                        required
-                    />
+
+                <div className='d-flex' style={{justifyContent:'space-between'}}>
+                    <div className="mb-3">
+                        <label htmlFor="age" className="form-label">
+                            Age
+                        </label>
+                        <input
+                            type="number"
+                            className="form-control"
+                            id="age"
+                            name="age"
+                            value={age}
+                            onChange={(e) => handleChange('age', e.target.value)}
+                            required
+                        />
+                        <div className="invalid-feedback">
+                            Please provide a valid age.
+                        </div>
+                    </div>
+                    <div className="mb-3">
+                        <label htmlFor="bloodGroup" className="form-label">
+                            Blood Group (Example: O+ , O-, AB+, AB-)
+                        </label>
+                        <input
+                            type="text"
+                            className="form-control"
+                            id="bloodGroup"
+                            name="bloodGroup"
+                            value={bloodGroup}
+                            onChange={(e) => handleChange('bloodGroup', e.target.value)}
+                            required
+                        />
+                    </div>
+
                 </div>
-                <div className="mb-3">
-                    <label htmlFor="age" className="form-label">
-                        Age
-                    </label>
-                    <input
-                        type="number"
-                        className="form-control"
-                        id="age"
-                        name="age"
-                        value={age}
-                        onChange={(e) => handleChange('age', e.target.value)}
-                        required
-                    />
-                </div>
+
                 <div className="mb-3">
                     <label htmlFor="address" className="form-label">
                         Address
@@ -125,65 +196,59 @@ const NewPatient = () => {
                         onChange={(e) => handleChange('address', e.target.value)}
                         required
                     />
+                    <div className="invalid-feedback">
+                        Please provide a valid address.
+                    </div>
                 </div>
-                <div className="mb-3">
-                    <label htmlFor="dateOfBirth" className="form-label">
-                        Date of Birth
-                    </label>
-                    <LocalizationProvider dateAdapter={AdapterLuxon}>
-                        <DatePicker
+                <div className="d-flex" style={{justifyContent:'space-between'}}>
+                    <div className="mb-3">
+                        <label htmlFor="height" className="form-label">
+                            Height in (cm)
+                        </label>
+                        <input
+                            type="number"
                             className="form-control"
-                            value={dateOfBirth}
-                            onChange={(date) => handleChange('dateOfBirth', date)}
-                            renderInput={(params) => <input {...params} />}
-                            showYearDropdown
-                            format="yyyy-MM-dd"
-                            yearDropdownItemNumber={65}
+                            id="height"
+                            name="height"
+                            value={height}
+                            onChange={(e) => handleChange('height', parseInt(e.target.value))}
                             required
                         />
-                    </LocalizationProvider>
+                    </div>
+                    <div className="mb-3">
+                        <label htmlFor="weight" className="form-label">
+                            Weight in (kg)
+                        </label>
+                        <input
+                            type="number"
+                            className="form-control"
+                            id="weight"
+                            name="weight"
+                            value={weight}
+                            onChange={(e) => handleChange('weight', parseInt(e.target.value))}
+                            required
+                        />
+                    </div>
                 </div>
-                <div className="mb-3">
-                    <label htmlFor="height" className="form-label">
-                        Height in (cm)
-                    </label>
-                    <input
-                        type="number"
-                        className="form-control"
-                        id="height"
-                        name="height"
-                        value={height}
-                        onChange={(e) => handleChange('height', parseInt(e.target.value))}
-                        required
-                    />
-                </div>
-                <div className="mb-3">
-                    <label htmlFor="weight" className="form-label">
-                        Weight in (kg)
-                    </label>
-                    <input
-                        type="number"
-                        className="form-control"
-                        id="weight"
-                        name="weight"
-                        value={weight}
-                        onChange={(e) => handleChange('weight', parseInt(e.target.value))}
-                        required
-                    />
-                </div>
-                <div className="mb-3">
-                    <label htmlFor="bloodGroup" className="form-label">
-                        Blood Group (Example: O+ , O-, AB+, AB-)
-                    </label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        id="bloodGroup"
-                        name="bloodGroup"
-                        value={bloodGroup}
-                        onChange={(e) => handleChange('bloodGroup', e.target.value)}
-                        required
-                    />
+
+                <div>
+                    <div className="mb-3">
+                        <label htmlFor="dateOfBirth" className="form-label">
+                            Date of Birth
+                        </label>
+                        <LocalizationProvider dateAdapter={AdapterLuxon}>
+                            <DatePicker
+                                className="form-control"
+                                value={dateOfBirth}
+                                onChange={(date) => handleChange('dateOfBirth', date)}
+                                renderInput={(params) => <input {...params} />}
+                                showYearDropdown
+                                format="yyyy-MM-dd"
+                                yearDropdownItemNumber={65}
+                                required
+                            />
+                        </LocalizationProvider>
+                    </div>
                 </div>
                 {/* ... */}
                 <button type="submit" className="btn btn-primary">

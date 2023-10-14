@@ -23,7 +23,7 @@ const Home = () => {
                     navigate(`/hospital/dashboard`);
                     break;
                 case 'pharmacy':
-                    navigate('/pharmacy/pharmacy');
+                    navigate('/pharmacy/dashboard');
                     break;
                 case 'laboratory':
                     navigate('/laboratory/dashboard');

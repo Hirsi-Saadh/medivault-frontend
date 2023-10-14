@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useAuth } from '../firebase'; // Import the useAuth hook from your firebase.js file
 import { usePatientData } from './patientUtils';
 import Sidepane from '../components/layout/sidepane';
+import vishan from '../assets/images/vishan_prof.jpg';
 
 export default function PatientProfile() {
   const patient = useAuth(); // Use the useAuth hook to get the authenticated user
@@ -10,6 +11,7 @@ export default function PatientProfile() {
   // State variables to track loading state
   const [isLoadingUsername, setIsLoadingUsername] = useState(true);
   const [isLoadingFirstName, setIsLoadingFirstName] = useState(true);
+  const [isLoadingEmail, setIsLoadingEmail] = useState(true);
   const [isLoadingLastName, setIsLoadingLastName] = useState(true);
   const [isLoadingAge, setIsLoadingAge] = useState(true);
   const [isLoadingAddress, setIsLoadingAddress] = useState(true);
@@ -34,6 +36,11 @@ export default function PatientProfile() {
     setTimeout(() => {
       setIsLoadingLastName(false);
     }, 2000);
+
+    // Simulate loading delay for LastName (replace with actual database fetch)
+    setTimeout(() => {
+          setIsLoadingEmail(false);
+        },2000);
 
     // Simulate loading delay for LastName (replace with actual database fetch)
     setTimeout(() => {
@@ -73,9 +80,11 @@ export default function PatientProfile() {
               <li>
                 <div>
                   <img
-                      src="http://www.gravatar.com/avatar/9ce79c699d1e5a2b5db63527abdb2a2f"
+                      // src="http://www.gravatar.com/avatar/9ce79c699d1e5a2b5db63527abdb2a2f"
+                      src={vishan}
                       alt={FirstName}
                       className="img-fluid rounded-circle"
+                      width='100'
                   />
                 </div>
               </li>
@@ -83,7 +92,7 @@ export default function PatientProfile() {
                 <div className="ms-4" style={{ textAlign: 'left' }}>
                   <h4 className="text-light">@{isLoadingUsername ? 'Loading...' : username}</h4>
                   <h6 className="text-light" style={{ textTransform: 'none', fontSize: '18px' }}>
-                    {isLoadingFirstName ? 'Loading...' : FirstName}
+                    {isLoadingEmail ? 'Loading...' : email}
                   </h6>
                   <span className="badge bg-success" style={{ textTransform: 'uppercase' }}>
                   {userType}
@@ -115,6 +124,12 @@ export default function PatientProfile() {
                       <div className="pt-3">
                         <span className="text-light">Last Name: </span>
                         <span className="text-light ps-3">{isLoadingLastName ? 'Loading...' : LastName}</span>
+                      </div>
+                    </li>
+                    <li>
+                      <div className="pt-3">
+                        <span className="text-light">Address: </span>
+                        <span className="text-light ps-3">{isLoadingAddress ? 'Loading...' : Address}</span>
                       </div>
                     </li>
                     {/* Add similar loading checks for other pieces of information */}

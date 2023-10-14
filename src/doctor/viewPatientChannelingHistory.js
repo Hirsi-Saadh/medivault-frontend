@@ -54,9 +54,9 @@ export default function ViewPatientChannelingHistory() {
     return (
 
 
-                <div className="mt-3 ms-4 pt-3 container d-block" style={{textAlign:'left', width:'350px', borderRadius:'25px 25px 25px 25px', backgroundColor:'#171717'}}>
-                    <div>
-                        <h2>Channeling History</h2>
+                <div className="ms-2 container d-block" style={{textAlign:'left', width:'350px',height:'260px', borderRadius:'25px 25px 25px 25px', backgroundColor:'#171717'}}>
+                    <div className='p-3'>
+                        <h4>Channeling History</h4>
 
                         {loading ? (
                             <p>Loading...</p>
@@ -64,8 +64,8 @@ export default function ViewPatientChannelingHistory() {
                             channelings.length > 0 ? (
                                 <div>
                                     {/* Display the list of prescription history */}
-                                    <div  style={{ overflowX: 'hidden', overflowY: 'auto', height: '250px', scrollbarWidth: 'thin', scrollbarColor: 'darkgray lightgray' }}>
-                                    <ul>
+                                    <div  style={{ overflowX: 'hidden', overflowY: 'auto', height: '180px', scrollbarWidth: 'thin', scrollbarColor: 'darkgray lightgray' }}>
+                                    <ul style={{ listStyleType: 'none', padding: 0 }}>
                                         {channelings.map((channeling, index) => (
                                             <li key={index}>
                                                 {/* Display channeling details */}

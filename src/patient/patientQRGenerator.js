@@ -10,18 +10,24 @@ export default function PatientQRGenerator() {
         <div className="d-flex" style={{maxHeight: '80vh'}}>
             <Sidepane />
             <div className="container" >
-                <div className="mt-3 ms-4 pt-3 container d-flex" >
+                <div className="mt-3 ms-4 pt-3 container d-block" >
                     {user ? (
                         <>
-                            <h4 className="pt-3 text-light">Welcome back {user.email}, </h4>
+                            <h3 className="pt-3 text-light">Your QR </h3><br/>
+                            <h5 className='mb-3'>{user.email}</h5>
 
-                            <div style={{ background: 'white', padding: '16px', height: "auto", margin: "0 auto", maxWidth: 175, width: "100%" }}>
+
+                            <div style={{ background: 'white', padding: '16px', height: "auto", margin: "0 auto", maxWidth: 256, width: "100%" }}>
                                 <QRCode
                                     size={256}
                                     style={{ height: "auto", maxWidth: "100%", width: "100%" }}
                                     value={user.uid}
                                     viewBox={`0 0 256 256`}
                                 />
+                            </div>
+
+                            <div className='mt-3'>
+                            <span>*NOTE: Do not share this with everyone</span>
                             </div>
                         </>
                     ) : (

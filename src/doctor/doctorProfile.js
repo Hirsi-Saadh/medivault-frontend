@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useAuth } from '../firebase'; // Import the useAuth hook from your firebase.js file
 import Sidepane from '../components/layout/sidepane';
 import {useDoctorData} from "./doctorUtils";
+import vishan from "../assets/images/vishan_prof.jpg";
 
 export default function DoctorProfile() {
   const doctor = useAuth(); // Use the useAuth hook to get the authenticated user

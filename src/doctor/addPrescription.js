@@ -7,6 +7,7 @@ import PrescribeMedicalReport from "./addMedicalReportPrescription";
 export default function AddPrescription() {
     const navigate = useNavigate();
     const doctor = useAuth(); // Replace with your Firebase authentication hook
+    const [successMessage, setSuccessMessage] = useState('');
 
     const [patientData, setPatientData] = useState(null);
 
@@ -56,6 +57,7 @@ export default function AddPrescription() {
         };
 
         console.log('Adding Prescription:', newPrescription);
+        setSuccessMessage('Prescription added successfully.');
         setPrescriptions([...prescriptions, newPrescription]);
     };
 
@@ -102,7 +104,7 @@ export default function AddPrescription() {
                     },
                 ]);
                 // Redirect or perform any necessary action
-                navigate('/dashboard'); // Example: Redirect to the dashboard
+                // navigate('/dashboard'); // Example: Redirect to the dashboard
             } else {
                 // Handle the case where the request to the backend failed
                 console.error('Failed to add prescriptions');
@@ -113,14 +115,18 @@ export default function AddPrescription() {
     };
 
     return (
-        <div className="container p-4" style={{ textAlign: 'left', width: 'auto', borderRadius: '25px 25px 25px 25px', backgroundColor: '#171717' }}>
+        <div className="p-4" style={{ textAlign: 'left', width: 'auto', borderRadius: '25px 25px 25px 25px', backgroundColor: '#171717', overflowX: 'hidden', overflowY: 'auto', height: '250px', scrollbarWidth: 'thin' }}>
             <h4>Prescription</h4>
-            <div className='d-flex flex-column'>
+
+            <div className='d-flex'>
                 <form onSubmit={handleSubmit} style={{ maxWidth: '600px', margin: '0 auto' }}>
+                    <div className="text-success">
+                        {successMessage && <p className="success-message">{successMessage}</p>}
+                    </div>
                     {/* Prescription input fields */}
                     {prescriptions.map((prescription, index) => (
-                        <div key={index} className="row mb-3">
-                            <div className="col-6">
+                        <div key={index} className="mb-3 d-flex">
+                            <div className="">
                                 <label htmlFor={`medicationName-${index}`} className="form-label">
                                     Medication Name
                                 </label>
@@ -136,7 +142,7 @@ export default function AddPrescription() {
                                     required
                                 />
                             </div>
-                            <div className="col-4">
+                            <div className="">
                                 <label htmlFor={`dosage-${index}`} className="form-label">
                                     Dosage
                                 </label>
@@ -152,7 +158,7 @@ export default function AddPrescription() {
                                     required
                                 />
                             </div>
-                            <div className="col-4">
+                            <div className="">
                                 <label htmlFor={`medicationType-${index}`} className="form-label">
                                     Medication Type
                                 </label>
@@ -168,7 +174,9 @@ export default function AddPrescription() {
                                     required
                                 />
                             </div>
-                            <div className="col-2">
+
+
+                            <div className="">
                                 <button
                                     type="button"
                                     onClick={() => handleRemovePrescription(index)}
@@ -179,26 +187,25 @@ export default function AddPrescription() {
                             </div>
                         </div>
                     ))}
-                    <div className='d-flex'>
-                        <div className="">
-                            <div className="col-12">
+
+                    <div className='d-flex' style={{justifyContent:'space-between'}}>
+                            <div className="">
                                 <button type="button" onClick={handleAddPrescription} className="btn btn-primary">
                                     +
                                 </button>
                             </div>
-                        </div>
-                        <div className="">
-                            <div className="col-12">
+
+
+                            <div className="">
                                 <button type="submit" className="btn btn-primary mt-3">
                                     Save Prescriptions
                                 </button>
                             </div>
-                        </div>
                     </div>
+
+
                 </form>
             </div>
-
-            <PrescribeMedicalReport/>
         </div>
     );
 }

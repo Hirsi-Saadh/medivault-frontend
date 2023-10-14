@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { auth, useAuth } from '../../firebase';
 import { useUserData } from '../../users/userUtils'; // Import your Firebase authentication module here
+import profpic from '../../assets/images/sample.png';
+import hospital from '../../assets/images/hospital.png';
 
 export default function Navbar() {
   const user = useAuth(); // Replace with your Firebase authentication hook
@@ -70,13 +72,6 @@ export default function Navbar() {
                           data-bs-toggle="dropdown"
                           aria-expanded="false"
                       >
-                        <img
-                            src="http://www.gravatar.com/avatar/9ce79c699d1e5a2b5db63527abdb2a2f"
-                            alt="User Avatar"
-                            className="rounded-circle"
-                            width="30"
-                            height="30"
-                        />
                       </a>
                       <ul className="dropdown-menu dropdown-menu-lg-end" aria-labelledby="navbarDropdown">
                         <li>

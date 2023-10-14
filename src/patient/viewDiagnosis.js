@@ -43,7 +43,7 @@ const ViewDiagnosis = () => {
                         <p>Loading...</p>
                     ) : user ? (
                         <div>
-                            <h2>Your Allergies</h2>
+                            <h2>Your Diagnoses</h2>
                             {diagnoses.length > 0 ? (
                                 <ul className="list-group">
                                     {diagnoses.map((diagnosis, index) => (
@@ -60,15 +60,15 @@ const ViewDiagnosis = () => {
                                             }}
                                         >
                                             <div>
-                                                <strong>Allergy Name:</strong> {diagnosis.diagnosisName}<br />
-                                                <strong>Allergy Description:</strong> {diagnosis.diagnosisDescription}
+                                                <strong>Diagnosis Name:</strong> {diagnosis.diagnosisName}<br />
+                                                <strong>Diagnosis Description:</strong> {diagnosis.diagnosisDescription}
                                             </div>
                                             <span className="badge bg-primary rounded-pill">Details</span>
                                         </li>
                                     ))}
                                 </ul>
                             ) : (
-                                <p>No allergies found.</p>
+                                <p>No diagnosis found.</p>
                             )}
                         </div>
 
