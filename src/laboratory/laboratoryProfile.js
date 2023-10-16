@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../firebase'; // Import the useAuth hook from your firebase.js file
 import Sidepane from '../components/layout/sidepane';
-import { usePharmacyData } from './pharmacyUtils';
-import pharma from '../assets/images/download.png';
+import { useLaboratoryData } from './laboratoryUtils';
+import profilepic from '../assets/images/lab-prof.png';
 
-export default function PharmacyProfile() {
-  const pharmacy = useAuth(); // Use the useAuth hook to get the authenticated user
-  const { userType, username, email, PharmacyName, PharmacyAddress, PharmacyLicense, PharmacyType, PharmacyLicenseBlob } = usePharmacyData(pharmacy);
+
+export default function LaboratoryProfile() {
+  const laboratory = useAuth(); // Use the useAuth hook to get the authenticated user
+  const { userType, username, email, LaboratoryName, LaboratoryAddress, LaboratoryLicense, LaboratoryType, MedicalLicenseBlob } = useLaboratoryData(laboratory);
 
   const [isLoading, setIsLoading] = useState(true); // Add loading state
   const [error, setError] = useState(null);
@@ -21,15 +22,15 @@ export default function PharmacyProfile() {
     console.log('user type:', userType);
     console.log('username:', username);
     console.log('email:', email)
-    console.log('Name:', PharmacyName);
-    console.log('Type:', PharmacyType);
-    console.log('License:', PharmacyLicense);
-    console.log('Address:', PharmacyAddress);
-    console.log('Image:', PharmacyLicenseBlob);
-  }, [userType, email, username, PharmacyName, PharmacyAddress, PharmacyLicense, PharmacyType, PharmacyLicenseBlob]);
+    console.log('Name:', LaboratoryName);
+    console.log('Type:', LaboratoryType);
+    console.log('License:', LaboratoryLicense);
+    console.log('Address:', LaboratoryAddress);
+    console.log('Image:', MedicalLicenseBlob);
+  }, [userType, email, username, LaboratoryName, LaboratoryAddress, LaboratoryLicense, LaboratoryType, MedicalLicenseBlob]);
 
   // image base64 to png
-  const license_img_url = `data:image/jpeg;base64,${PharmacyLicenseBlob}`;
+  const license_img_url = `data:image/jpeg;base64,${MedicalLicenseBlob}`;
 
   return (
       <div className="d-flex" style={{ maxHeight: '80vh' }}>
@@ -43,10 +44,11 @@ export default function PharmacyProfile() {
                   <li>
                     <div>
                       <img
-                          src={pharma}
-                          alt={PharmacyName}
+                          // src="http://www.gravatar.com/avatar/9ce79c699d1e5a2b5db63527abdb2a2f"
+                          src={profilepic}
+                          alt={LaboratoryName}
                           className="img-fluid rounded-circle"
-                          width='100px'
+                          width="100px"
                       />
                     </div>
                   </li>
@@ -79,19 +81,19 @@ export default function PharmacyProfile() {
                         <li>
                           <div className="pt-3" >
                             <span className="text-light">Name: </span>
-                            <span className="text-light ps-3">{PharmacyName}</span>
+                            <span className="text-light ps-3">{LaboratoryName}</span>
                           </div>
                         </li>
                         <li>
                           <div className="pt-3">
                             <span className="text-light">License No : </span>
-                            <span className="text-light ps-3">{PharmacyLicense}</span>
+                            <span className="text-light ps-3">{LaboratoryLicense}</span>
                           </div>
                         </li>
                         <li>
                           <div className="pt-3" >
                             <span className="text-light">Address: </span>
-                            <span className="text-light ps-3">{PharmacyAddress}</span>
+                            <span className="text-light ps-3">{LaboratoryAddress}</span>
                           </div>
                         </li>
                       </ul>
@@ -102,13 +104,13 @@ export default function PharmacyProfile() {
                         <li>
                           <div className="pt-3" >
                             <span className="text-light pe-3">Type: </span>
-                            <span className="badge bg-info text-dark">{PharmacyType}</span>
+                            <span className="badge bg-info text-dark">{LaboratoryType}</span>
                           </div>
                         </li>
                         <li>
                           <div className="pt-3">
                             <span className="text-light">License: </span>
-                            <img src={license_img_url} alt="pharmacy license" width='140px' />
+                            <img src={license_img_url} alt="medical license" width='140px' />
                           </div>
                         </li>
                       </ul>

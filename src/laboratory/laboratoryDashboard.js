@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../firebase'; // Import the useAuth hook from your firebase.js file
-import { useHospitalData } from './hospitalUtils';
+import { useLaboratoryData } from './laboratoryUtils';
 import Sidepane from '../components/layout/sidepane';
 
-export default function HospitalDashboard() {
-    const hospital = useAuth(); // Use the useAuth hook to get the authenticated user
-    const { userType, username, email, HospitalName, HospitalAddress, HospitalLicense, HospitalType, MedicalLicenseBlob } = useHospitalData(hospital);
+export default function LaboratoryDashboard() {
+    const laboratory = useAuth(); // Use the useAuth hook to get the authenticated user
+    const { userType, username, email, LaboratoryName, LaboratoryAddress, LaboratoryLicense, LaboratoryType, MedicalLicenseBlob } = useLaboratoryData(laboratory);
 
     const [isLoading, setIsLoading] = useState(true); // Add loading state
     const [error, setError] = useState(null);
@@ -15,16 +15,16 @@ export default function HospitalDashboard() {
         console.log('user type:', userType);
         console.log('username:', username);
         console.log('email:', email)
-        console.log('Name:', HospitalName);
-        console.log('Type:', HospitalType);
-        console.log('License:', HospitalLicense);
-        console.log('Address:', HospitalAddress);
+        console.log('Name:', LaboratoryName);
+        console.log('Type:', LaboratoryType);
+        console.log('License:', LaboratoryLicense);
+        console.log('Address:', LaboratoryAddress);
         console.log('Image:', MedicalLicenseBlob);
 
-        // Assume your useHospitalData function fetches data asynchronously
+        // Assume your useLaboratoryData function fetches data asynchronously
         // You can set isLoading to false when the data has been loaded
         setIsLoading(false);
-    }, [userType, email, username, HospitalName, HospitalAddress, HospitalLicense, HospitalType, MedicalLicenseBlob]);
+    }, [userType, email, username, LaboratoryName, LaboratoryAddress, LaboratoryLicense, LaboratoryType, MedicalLicenseBlob]);
 
     // image base64 to png
     const license_img_url = `data:image/jpeg;base64,${MedicalLicenseBlob}`;

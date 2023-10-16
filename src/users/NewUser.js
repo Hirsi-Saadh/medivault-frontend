@@ -61,7 +61,7 @@ export default function NewUser() {
                     navigate(`/pharmacy/register?uid=${firebaseUser.uid}`);
                     break;
                 case 'laboratory':
-                    navigate('/laboratory');
+                    navigate(`/laboratory/register?uid=${firebaseUser.uid}`);
                     break;
                 default:
                     // Default redirect if user type is not recognized

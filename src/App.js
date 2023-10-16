@@ -35,6 +35,9 @@ import PrescribedMedication from "./patient/prescribedMedication";
 import PharmacyDashboard from "./pharmacy/pharmacyDashboard";
 import PharmacyProfile from "./pharmacy/pharmacyProfile";
 import PharmacyQRScanner from "./pharmacy/pharmacyQRScanner";
+import ShowPrescriptions from "./pharmacy/showPrescriptions";
+import LaboratoryDashboard from "./laboratory/laboratoryDashboard";
+import LaboratoryProfile from "./laboratory/laboratoryProfile";
 
 
 function App() {
@@ -74,6 +77,9 @@ function App() {
             <Route exact path="pharmacy/dashboard" element={<PharmacyDashboard/>}/>
             <Route exact path="pharmacy/profile" element={<PharmacyProfile/>}/>
             <Route exact path="pharmacy/scan/qr" element={<PharmacyQRScanner/>}/>
+            <Route exact path="pharmacy/view/prescription" element={<ShowPrescriptions/>}/>
+            <Route exact path="laboratory/dashboard" element={<LaboratoryDashboard/>}/>
+            <Route exact path="laboratory/profile" element={<LaboratoryProfile />} />
           </Routes>
           </div>
         </Router>

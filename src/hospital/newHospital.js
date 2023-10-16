@@ -102,6 +102,7 @@ export default function NewHospital() {
                                 id="hospitalName"
                                 value={hospitalName}
                                 onChange={(e) => onInputChange(e)}
+                                required
                             />
                         </div>
                         <div className="mb-3">
@@ -116,6 +117,7 @@ export default function NewHospital() {
                                 id="hospitalLicense"
                                 value={hospitalLicense}
                                 onChange={(e) => onInputChange(e)}
+                                required
                             />
                         </div>
                         <div className="mb-3">
@@ -130,6 +132,7 @@ export default function NewHospital() {
                                 id="hospitalAddress"
                                 value={hospitalAddress}
                                 onChange={(e) => onInputChange(e)}
+                                required
                             />
                         </div>
                         <div className="mb-3">
@@ -160,6 +163,8 @@ export default function NewHospital() {
                                 id="medicalLicenseBlob"
                                 name="medicalLicenseBlob"
                                 onChange={(e) => onInputChange(e)}
+                                required
+
                             />
                         </div>
 
@@ -171,6 +176,7 @@ export default function NewHospital() {
                             type="button"
                             className="btn btn-outline-danger mx-2"
                             onClick={() => navigate('/')}
+
                         >
                             Cancel
                         </button>

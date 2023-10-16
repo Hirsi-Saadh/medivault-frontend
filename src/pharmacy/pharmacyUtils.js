@@ -21,7 +21,7 @@ export function usePharmacyData(pharmacy) {
                 try {
                     const uid = pharmacy.uid;
                     console.log({uid})
-                    const pharmacyTypeResponse = await axios.get(`${springApiUrl}/pharmacy/info?uid=${uid}`);
+                    const pharmacyTypeResponse = await axios.get(`${springApiUrl}/prescriptions/info?uid=${uid}`);
 
                     if (pharmacyTypeResponse.status === 200) {
                         const pharmacyData = pharmacyTypeResponse.data;

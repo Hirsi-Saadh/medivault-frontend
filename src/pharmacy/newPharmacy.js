@@ -102,6 +102,7 @@ export default function NewPharmacy() {
                                 id="pharmacyName"
                                 value={pharmacyName}
                                 onChange={(e) => onInputChange(e)}
+                                required
                             />
                         </div>
                         <div className="mb-3">
@@ -116,6 +117,7 @@ export default function NewPharmacy() {
                                 id="pharmacyLicense"
                                 value={pharmacyLicense}
                                 onChange={(e) => onInputChange(e)}
+                                required
                             />
                         </div>
                         <div className="mb-3">
@@ -130,6 +132,7 @@ export default function NewPharmacy() {
                                 id="pharmacyAddress"
                                 value={pharmacyAddress}
                                 onChange={(e) => onInputChange(e)}
+                                required
                             />
                         </div>
                         <div className="mb-3">
@@ -143,6 +146,7 @@ export default function NewPharmacy() {
                                 id="pharmacyType"
                                 value={pharmacyType}
                                 onChange={(e) => onInputChange(e)}
+                                required
                             >
                                 <option value="">Select user type</option>
                                 <option value="GOVERNMENT">Government</option>
@@ -160,6 +164,7 @@ export default function NewPharmacy() {
                                 id="pharmacyLicenseBlob"
                                 name="pharmacyLicenseBlob"
                                 onChange={(e) => onInputChange(e)}
+                                required
                             />
                         </div>
 
