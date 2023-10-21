@@ -18,9 +18,11 @@ export default function PatientQRGenerator() {
 
 
                             <div style={{ background: 'white', padding: '16px', height: "auto", margin: "0 auto", maxWidth: 256, width: "100%" }}>
+                                {/*QR generation component*/}
                                 <QRCode
                                     size={256}
                                     style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+                                    // Value is the registered users uid
                                     value={user.uid}
                                     viewBox={`0 0 256 256`}
                                 />

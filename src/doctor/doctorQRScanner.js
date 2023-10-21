@@ -57,7 +57,7 @@ export default function DoctorQRScanner() {
 
     function handleMoreInfoClick() {
         if (validPatient && qrData) {
-            // Construct the URL with the UID obtained from the QR code
+            // URL retrieving data from the backend through the QR's data
             const url = `/doctor/chanelling/view-patient?patient_uid=${qrData}`;
 
             // Store patient data in session storage

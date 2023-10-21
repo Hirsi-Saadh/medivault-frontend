@@ -6,6 +6,7 @@ export function useUserData(user) {
     const [userType, setUserType] = useState('');
     const [email, setEmail] = useState('');
     const [username, setUsername] = useState('');
+    const[userUid, setUserUid]=useState('');
 
     useEffect(() => {
         if (user) {
@@ -19,6 +20,7 @@ export function useUserData(user) {
                         setUserType(userData.userType);
                         setEmail(userData.email);
                         setUsername(userData.username);
+                        setUserUid(userUid.uid);
                     } else {
                         console.error('User not found in MySQL.');
                     }
@@ -31,5 +33,5 @@ export function useUserData(user) {
         }
     }, [user]);
 
-    return { userType, email, username };
+    return { userType, email, username, userUid };
 }

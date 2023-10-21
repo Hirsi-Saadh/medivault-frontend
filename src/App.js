@@ -38,6 +38,8 @@ import PharmacyQRScanner from "./pharmacy/pharmacyQRScanner";
 import ShowPrescriptions from "./pharmacy/showPrescriptions";
 import LaboratoryDashboard from "./laboratory/laboratoryDashboard";
 import LaboratoryProfile from "./laboratory/laboratoryProfile";
+import LaboratoryQRScanner from "./laboratory/LaboratoryScanQR";
+import ReportManagement from "./laboratory/reportManagment";
 
 
 function App() {
@@ -80,6 +82,9 @@ function App() {
             <Route exact path="pharmacy/view/prescription" element={<ShowPrescriptions/>}/>
             <Route exact path="laboratory/dashboard" element={<LaboratoryDashboard/>}/>
             <Route exact path="laboratory/profile" element={<LaboratoryProfile />} />
+            <Route exact path="laboratory/scan/qr" element={<LaboratoryQRScanner/>}/>
+            <Route exact path="laboratory/manage/reports" element={<ReportManagement/>}/>
+
           </Routes>
           </div>
         </Router>

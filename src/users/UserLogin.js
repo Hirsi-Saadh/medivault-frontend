@@ -110,6 +110,7 @@ export default function UserLogin() {
                     name="email"
                     value={email}
                     onChange={(e) => onInputChange(e)}
+                    required
                 />
               </div>
               <div className="mb-3" style={{ textAlign: 'left' }}>
@@ -123,6 +124,7 @@ export default function UserLogin() {
                     name="password"
                     value={password}
                     onChange={(e) => onInputChange(e)}
+                    required
                 />
               </div>
               <button type="submit" className="btn btn-outline-primary" disabled={isCombinedLoading}>

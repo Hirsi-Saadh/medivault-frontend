@@ -2,10 +2,10 @@ import React, {useState} from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faCircleInfo,
-    faCommentMedical,
+    faCommentMedical, faEye,
     faFileMedical,
     faHandDots,
-    faHome,
+    faHome, faPlusCircle,
     faPrescriptionBottle, faQrcode, faRightFromBracket, faUser, faUserDoctor
 } from '@fortawesome/free-solid-svg-icons';
 import {auth, useAuth} from "../../firebase";
@@ -26,6 +26,12 @@ function SidePane() {
         } catch (error) {
             console.error('Error logging out:', error);
         }
+    };
+
+    const [isMobileIconsCollapsed, setIsMobileIconsCollapsed] = useState(true);
+
+    const toggleMobileIcons = () => {
+        setIsMobileIconsCollapsed(!isMobileIconsCollapsed);
     };
 
     const [isSubMenu1Collapsed, setIsSubMenu1Collapsed] = useState(true);
@@ -81,6 +87,10 @@ function SidePane() {
     //qr
     const PharmacyQrScanLink = '/pharmacy/scan/qr'
 
+    //Pharmacy
+    //qr
+    const LaboratoryQrScanLink = '/laboratory/scan/qr'
+
     if (isLoading) {
         // Display a loading indicator or message
         return <div>Loading...</div>;
@@ -94,89 +104,220 @@ function SidePane() {
     // patient menu
     const patientMenu = userType.toLowerCase() === 'patient' ? (
         <>
-        <li>
-            <a
-                href="#"
-                onClick={toggleSubMenu1}
-                className="nav-link px-0 align-middle text-light"
-            >
-                <FontAwesomeIcon icon={faPrescriptionBottle}/> <span className="ms-2 d-none d-sm-inline">Prescriptions</span>
-            </a>
-            <ul
-                className={`collapse ${isSubMenu1Collapsed ? "" : "show"} nav flex-column ms-1`}
-                id="submenu1"
-                data-bs-parent="#menu"
-            >
-                <li className="w-100">
-                    <a className="nav-link px-0 text-light" href={viewPrescription}>
-                        <span className="d-none d-sm-inline">&nbsp;&nbsp;View</span>
-                    </a>
-                </li>
-                <li className="w-100">
-                    <a className="nav-link px-0 text-light" href={viewPrescriptionHistory}>
-                        <span className="d-none d-sm-inline">&nbsp;&nbsp;History</span>
-                    </a>
-                </li>
-            </ul>
-        </li>
-        <li>
-            <a
-                href="#"
-                onClick={toggleSubMenu2}
-                className="nav-link px-0 align-middle text-light"
-            >
-                <FontAwesomeIcon icon={faHandDots}/> <span className="ms-1 d-none d-sm-inline">Allergies</span>
-            </a>
-            <ul
-                className={`collapse ${isSubMenu2Collapsed ? "" : "show"} nav flex-column ms-1`}
-                id="submenu2"
-                data-bs-parent="#menu"
-            >
-                <li className="w-100">
-                    <a className="nav-link px-0 text-light" href={viewAllergyLink}>
-                        <span className="d-none d-sm-inline">&nbsp;&nbsp;View</span>
-                    </a>
-                </li>
-                <li>
-                    <a className="nav-link px-0 text-light" href={addAllergyLink}>
-                        <span className="d-none d-sm-inline">&nbsp;&nbsp;Add</span>
-                    </a>
-                </li>
-            </ul>
-        </li>
+            <li>
+                <a
+                    href="#"
+                    onClick={toggleSubMenu1}
+                    className="nav-link px-0 align-middle text-light"
+                >
+                    <FontAwesomeIcon icon={faPrescriptionBottle} />{' '}
+                    <span className="ms-2 d-none d-sm-inline">Prescriptions</span>
+                    <span
+                        className={`d-sm-none ${isMobileIconsCollapsed ? 'collapsed' : ''}`}
+                        onClick={toggleMobileIcons}
+                        style={{
 
-        <li>
-            <a
-                href="#"
-                onClick={toggleSubMenu3}
-                className="nav-link px-0 align-middle text-light"
-            >
-                <FontAwesomeIcon icon={faCommentMedical}/> <span className="ms-1 d-none d-sm-inline">Diagnoses</span>
-            </a>
-            <ul
-                className={`collapse ${isSubMenu3Collapsed ? "" : "show"} nav flex-column ms-1`}
-                id="submenu3"
-                data-bs-parent="#menu"
-            >
-                <li className="w-100">
-                    <a className="nav-link px-0 text-light" href={viewDiagnosisLink}>
-                        <span className="d-none d-sm-inline">&nbsp;&nbsp;View</span>
-                    </a>
-                </li>
-                <li>
-                    <a className="nav-link px-0 text-light" href={addDiagnosisLink}>
-                        <span className="d-none d-sm-inline">&nbsp;&nbsp;Add</span>
-                    </a>
-                </li>
-            </ul>
-        </li>
-        <li>
-            <a className="nav-link px-0 align-middle text-light" href={qrViewLink}>
-                <FontAwesomeIcon icon={faQrcode}/> <span className="ms-2 d-none d-sm-inline">View QR</span>
-            </a>
-        </li>
+                            cursor: 'pointer',
+                        }}
+                    >
+            {/*{isMobileIconsCollapsed ? (*/}
+            {/*    <FontAwesomeIcon icon={faPlusCircle} /> // Add icon*/}
+            {/*) : (*/}
+            {/*    <FontAwesomeIcon icon={faEye} /> // View icon*/}
+            {/*)}*/}
+          </span>
+                </a>
+                <ul
+                    className={`collapse ${isSubMenu1Collapsed ? '' : 'show'} nav flex-column ms-1`}
+                    id="submenu1"
+                    data-bs-parent="#menu"
+                >
+                    <li className="w-100">
+                        <a className="nav-link px-0 text-light" href={viewPrescription}>
+                            <span className="d-none d-sm-inline">&nbsp;&nbsp;View</span>
+                            <span
+                                className={`d-sm-none ${isMobileIconsCollapsed ? 'collapsed' : ''}`}
+                                style={{
+                                    cursor: 'pointer',
+                                }}
+                            >
+                {isMobileIconsCollapsed ? (
+                    <FontAwesomeIcon icon={faPlusCircle} /> // Add icon
+
+                ) : (
+                    <FontAwesomeIcon icon={faEye} /> // View icon
+                )}
+              </span>
+                        </a>
+                    </li>
+                    <li className="w-100">
+                        <a className="nav-link px-0 text-light" href={viewPrescriptionHistory}>
+                            <span className="d-none d-sm-inline">&nbsp;&nbsp;History</span>
+                            <span
+                                className={`d-sm-none ${isMobileIconsCollapsed ? 'collapsed' : ''}`}
+                                style={{
+                                
+                                    cursor: 'pointer',
+                                }}
+                            >
+                {isMobileIconsCollapsed ? (
+                    <FontAwesomeIcon icon={faEye} /> // View icon
+                ) : (
+                    <FontAwesomeIcon icon={faPlusCircle} /> // Add icon
+                )}
+              </span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+
+
+
+
+
+
+            <li>
+                <a
+                    href="#"
+                    onClick={toggleSubMenu2}
+                    className="nav-link px-0 align-middle text-light"
+                >
+                    <FontAwesomeIcon icon={faHandDots} />{' '}
+                    <span className="ms-1 d-none d-sm-inline">Allergies</span>
+                    <span
+                        className="d-sm-none" // Show on small screens (mobile)
+                        style={{
+                            marginLeft: '10px',
+                            cursor: 'pointer',
+                        }}
+                    >
+          <FontAwesomeIcon icon={faPlusCircle} /> {/* Add icon */}
+        </span>
+                    <span
+                        className="d-sm-none" // Show on small screens (mobile)
+                        style={{
+                            marginLeft: '10px',
+                            cursor: 'pointer',
+                        }}
+                    >
+          <FontAwesomeIcon icon={faEye} /> {/* View icon */}
+        </span>
+                </a>
+                <ul
+                    className={`collapse ${isSubMenu2Collapsed ? '' : 'show'} nav flex-column ms-1`}
+                    id="submenu2"
+                    data-bs-parent="#menu"
+                >
+                    <li className="w-100">
+                        <a className="nav-link px-0 text-light" href={viewAllergyLink}>
+                            <span className="d-none d-sm-inline">&nbsp;&nbsp;View</span>
+                            <span
+                                className="d-sm-none" // Show on small screens (mobile)
+                                style={{
+                                    marginLeft: '10px',
+                                    cursor: 'pointer',
+                                }}
+                            >
+              <FontAwesomeIcon icon={faEye} /> {/* View icon */}
+            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a className="nav-link px-0 text-light" href={addAllergyLink}>
+                            <span className="d-none d-sm-inline">&nbsp;&nbsp;Add</span>
+                            <span
+                                className="d-sm-none" // Show on small screens (mobile)
+                                style={{
+                                    marginLeft: '10px',
+                                    cursor: 'pointer',
+                                }}
+                            >
+              <FontAwesomeIcon icon={faPlusCircle} /> {/* Add icon */}
+            </span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a
+                    href="#"
+                    onClick={toggleSubMenu3}
+                    className="nav-link px-0 align-middle text-light"
+                >
+                    <FontAwesomeIcon icon={faCommentMedical} />{' '}
+                    <span className="ms-1 d-none d-sm-inline">Diagnoses</span>
+                    <span
+                        className="d-sm-none" // Show on small screens (mobile)
+                        style={{
+                            marginLeft: '10px',
+                            cursor: 'pointer',
+                        }}
+                    >
+          <FontAwesomeIcon icon={faPlusCircle} /> {/* Add icon */}
+        </span>
+                    <span
+                        className="d-sm-none" // Show on small screens (mobile)
+                        style={{
+                            marginLeft: '10px',
+                            cursor: 'pointer',
+                        }}
+                    >
+          <FontAwesomeIcon icon={faEye} /> {/* View icon */}
+        </span>
+                </a>
+                <ul
+                    className={`collapse ${isSubMenu3Collapsed ? '' : 'show'} nav flex-column ms-1`}
+                    id="submenu3"
+                    data-bs-parent="#menu"
+                >
+                    <li className="w-100">
+                        <a className="nav-link px-0 text-light" href={viewDiagnosisLink}>
+                            <span className="d-none d-sm-inline-flex">&nbsp;&nbsp;View</span>
+                            <span
+                                className="d-sm-none" // Show on small screens (mobile)
+                                style={{
+                                    marginLeft: '10px',
+                                    cursor: 'pointer',
+                                }}
+                            >
+              <FontAwesomeIcon icon={faEye} /> {/* View icon */}
+            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a className="nav-link px-0 text-light" href={addDiagnosisLink}>
+                            <span className="d-none d-sm-inline">&nbsp;&nbsp;Add</span>
+                            <span
+                                className="d-sm-none" // Show on small screens (mobile)
+                                style={{
+                                    marginLeft: '10px',
+                                    cursor: 'pointer',
+                                }}
+                            >
+              <FontAwesomeIcon icon={faPlusCircle} /> {/* Add icon */}
+            </span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a className="nav-link px-0 align-middle text-light" href={qrViewLink}>
+                    <FontAwesomeIcon icon={faQrcode} /> <span className="ms-2 d-none d-sm-inline">View QR</span>
+                </a>
+            </li>
+            <li>
+                <a
+                    href="#"
+                    onClick={toggleSubMenu4}
+                    className="nav-link px-0 align-middle text-light"
+                >
+                    <FontAwesomeIcon icon={faFileMedical} /> <span className="ms-2 d-none d-sm-inline">Reports</span>
+                </a>
+               </li>
         </>
     ) : null;
+
 
     // hospital
     const hospitalMenu = userType.toLowerCase() === 'hospital' ? (
@@ -224,7 +365,7 @@ function SidePane() {
 
     ) : null;
 
-    // doctor
+    // pharmacy
     const pharmacyMenu = userType.toLowerCase() === 'pharmacy' ? (
 
         <>
@@ -237,78 +378,77 @@ function SidePane() {
 
     ) : null;
 
+    // laboratory
+    const laboratoryMenu = userType.toLowerCase() === 'laboratory' ? (
+
+        <>
+            <li>
+                <a className="nav-link px-0 align-middle text-light" href={LaboratoryQrScanLink}>
+                    <FontAwesomeIcon icon={faQrcode}/> <span className="ms-2 d-none d-sm-inline">Scan QR</span>
+                </a>
+            </li>
+            <li>
+                <a
+                    href="#"
+                    onClick={toggleSubMenu4}
+                    className="nav-link px-0 align-middle text-light"
+                >
+                    <FontAwesomeIcon icon={faFileMedical} /> <span className="ms-2 d-none d-sm-inline">Reports</span>
+                </a>
+
+            </li>
+        </>
+
+    ) : null;
+
     return (
         <div className="col-auto col-md-3 col-xl-2 px-sm-2 px-0" style={{ borderRight: '2px solid #171717'}}>
             <div className="d-flex flex-column">
                 <ul className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
-                    <h4 className="mt-5" style={{color: '#454a57', letterSpacing: '1px', fontWeight: '700', fontSize:'13px', marginBottom: '15px'}}>
+                    <h4 className="mt-5" style={{ color: '#454a57', letterSpacing: '1px', fontWeight: '700', fontSize: '13px', marginBottom: '15px' }}>
                         MENU
                     </h4>
 
                     <li className="nav-item">
                         <a className="nav-link align-middle px-0 text-light" href={dashboardLink}>
-                            <FontAwesomeIcon icon={faHome}/> <span className="ms-1 d-none d-sm-inline">Dashboard</span>
+                            <FontAwesomeIcon icon={faHome} /> <span className="ms-1 d-none d-sm-inline">Dashboard</span>
                         </a>
                     </li>
                     {patientMenu}
                     {hospitalMenu}
                     {doctorMenu}
                     {pharmacyMenu}
+                    {laboratoryMenu}
 
-                    <li>
-                        <a
-                            href="#"
-                            onClick={toggleSubMenu4}
-                            className="nav-link px-0 align-middle text-light"
-                        >
-                            <FontAwesomeIcon icon={faFileMedical}/> <span className="ms-2 d-none d-sm-inline">Reports</span>
-                        </a>
-                        <ul
-                            className={`collapse ${isSubMenu4Collapsed ? "" : "show"} nav flex-column ms-1`}
-                            id="submenu3"
-                            data-bs-parent="#menu"
-                        >
-                            <li className="w-100">
-                                <a className="nav-link px-0 text-light">
-                                    <span className="d-none d-sm-inline">&nbsp;&nbsp;View</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a className="nav-link px-0 text-light">
-                                    <span className="d-none d-sm-inline">&nbsp;&nbsp;Add</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
 
-                    <br/>
-                    <h4 style={{color: '#454a57', letterSpacing: '1px', fontWeight: '700', fontSize:'13px', marginBottom: '15px'}}>
+
+                    <br />
+                    <h4 style={{ color: '#454a57', letterSpacing: '1px', fontWeight: '700', fontSize: '13px', marginBottom: '15px' }}>
                         EXTRAS
                     </h4>
 
                     <li>
                         <a className="nav-link px-0 align-middle text-light">
-                            <FontAwesomeIcon icon={faCircleInfo}/> <span className="ms-2 d-none d-sm-inline">Support</span>
+                            <FontAwesomeIcon icon={faCircleInfo} /> <span className="ms-2 d-none d-sm-inline">Support</span>
                         </a>
                     </li>
 
-                    <br/>
-                    <h4 style={{color: '#454a57', letterSpacing: '1px', fontWeight: '700', fontSize:'13px', marginBottom: '15px'}}>
+                    <br />
+                    <h4 style={{ color: '#454a57', letterSpacing: '1px', fontWeight: '700', fontSize: '13px', marginBottom: '15px' }}>
                         GENERAL
                     </h4>
 
                     <li>
                         <a className="nav-link px-0 align-middle text-light" href={profileLink}>
-                            <FontAwesomeIcon icon={faUser}/> <span className="ms-2 d-none d-sm-inline">My Profile</span>
+                            <FontAwesomeIcon icon={faUser} /> <span className="ms-2 d-none d-sm-inline">My Profile</span>
                         </a>
                     </li>
 
                     <li>
                         <a className="nav-link px-0 align-middle text-light" href='#' onClick={handleLogout}>
-                            <FontAwesomeIcon icon={faRightFromBracket}/> <span className="ms-2 d-none d-sm-inline">Logout</span>
+                            <FontAwesomeIcon icon={faRightFromBracket} /> <span className="ms-2 d-none d-sm-inline">Logout</span>
                         </a>
                     </li>
-
                 </ul>
                 <hr />
             </div>

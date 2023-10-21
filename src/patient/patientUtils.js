@@ -28,10 +28,12 @@ export function usePatientData(initialPatient = null) {
 
     useEffect(() => {
         if (patient) {
+            // data fetching method
             const fetchData = async () => {
                 try {
                     const uid = patient.uid;
                     console.log({ uid });
+                    // request patient data from the backend
                     const patientTypeResponse = await axios.get(`${springApiUrl}/patients/info?uid=${uid}`);
 
                     if (patientTypeResponse.status === 200) {
