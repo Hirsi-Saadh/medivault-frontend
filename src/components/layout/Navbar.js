@@ -35,7 +35,7 @@ export default function Navbar() {
       <nav className="navbar navbar-expand-lg navbar-dark" style={{ backgroundColor: '#171717' }}>
         <div className="container">
           <a className="navbar-brand" href="/" style={{ textTransform: 'uppercase', fontWeight: '700', fontSize: '26px' }}>
-            Medi Vault
+            MediVault
           </a>
           <button
               className="navbar-toggler"
